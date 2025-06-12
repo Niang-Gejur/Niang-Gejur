@@ -24,32 +24,29 @@
         font-size: 2.5em; /* Ukuran font yang lebih besar */
       }
       
-    nav ul {
+nav ul {
     list-style: none;
     padding: 0;
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* Memungkinkan item untuk membungkus */
 }
+
+nav li {
+    flex: 1; /* Membuat setiap item dalam navbar memiliki lebar yang sama */
+    margin: 2px; /* Jarak antar item yang lebih kecil */
+}
+
 nav a {
+    display: block; /* Mengubah link menjadi block untuk memanfaatkan lebar penuh */
     color: #ecf0f1; /* Warna teks link yang lebih cerah */
     text-decoration: none;
     font-weight: bold;
-    padding: 10px; /* Padding vertikal */
-    width: 100%; /* Lebar penuh untuk button */
-    text-align: center; /* Pusatkan teks */
+    padding: 10px; /* Padding yang lebih kecil untuk tombol */
     border-radius: 5px; /* Sudut yang lebih halus */
+    text-align: center; /* Pusatkan teks */
     transition: background-color 0.3s;
 }
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column; /* Mengubah arah menjadi kolom pada layar kecil */
-    }
-    nav a {
-        padding: 15px; /* Padding yang lebih besar untuk tombol */
-    }
-}
-
       nav a:hover {
         background-color: #e74c3c; /* Warna latar belakang saat hover */
       }
