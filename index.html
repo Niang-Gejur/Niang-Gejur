@@ -8,106 +8,139 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <style>
       body {
-        background-color: #141414;
-        color: #ffffff;
+        background-color: #ffffff; /* Latar belakang putih */
+        color: #333; /* Warna teks gelap */
       }
+      
       header {
-        background-color: #000;
-        padding: 15px;
+        background-color: #000000; /* Latar belakang hitam untuk header */
+        padding: 20px;
         text-align: center;
       }
+      
       header h1 {
-        color: #e50914;
+        color: #e74c3c; /* Warna merah untuk judul */
         font-weight: bold;
+        font-size: 2.5em; /* Ukuran font yang lebih besar */
       }
+      
       nav ul {
         list-style: none;
         padding: 0;
         display: flex;
         justify-content: center;
-        gap: 20px;
+        gap: 30px; /* Jarak antar item yang lebih besar */
       }
+      
       nav a {
-        color: white;
+        color: #ecf0f1; /* Warna teks link yang lebih cerah */
         text-decoration: none;
         font-weight: bold;
+        padding: 10px 20px; /* Padding yang lebih besar untuk tombol */
+        border-radius: 5px; /* Sudut yang lebih halus */
+        transition: background-color 0.3s;
       }
+      
+      nav a:hover {
+        background-color: #e74c3c; /* Warna latar belakang saat hover */
+      }
+      
       .card {
-        background-color: #181818;
-        color: white;
+        background-color: #ffffff; /* Latar belakang kartu putih */
+        color: #333; /* Warna teks kartu gelap */
+        border: 1px solid #ddd; /* Border yang lebih halus */
+        border-radius: 10px; /* Sudut yang lebih halus */
+        transition: transform 0.3s; /* Efek transisi saat hover */
       }
+      
+      .card:hover {
+        transform: scale(1.05); /* Efek membesar saat hover */
+      }
+      
       .btn-info {
-        background-color: #e50914;
+        background-color: #e74c3c; /* Warna tombol merah */
         border: none;
+        padding: 10px 20px; /* Ukuran tombol yang lebih besar */
+        border-radius: 5px; /* Sudut yang lebih halus */
       }
+      
       .btn-info a {
         color: white;
         text-decoration: none;
       }
+      
       footer {
-        background-color: #000;
+        background-color: #000000; /* Latar belakang hitam untuk footer */
         text-align: center;
-        padding: 10px;
+        padding: 15px;
+        color: #ecf0f1; /* Warna teks footer yang lebih cerah */
       }
+      
       ul {
-    padding: 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-li {
-    display: inline-block;
-    margin: 10px;
-}
-
-li a {
-    display: inline-block;
-    color: white;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 12px 24px;
-    background-color: #E50914; /* Warna merah khas Netflix */
-    border-radius: 8px;
-    transition: 0.3s;
-    font-size: 1.2em;
-}
-
-/* Efek hover */
-li a:hover {
-    background-color: #B20710; /* Merah lebih gelap saat hover */
-    transform: scale(1.1); /* Efek membesar saat hover */
-}
-
-/* Responsif untuk layar kecil */
-@media (max-width: 768px) {
-    ul {
+        padding: 0;
+        text-align: center;
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
         justify-content: center;
-    }
-    
-    li {
+        flex-wrap: wrap;
+      }
+      
+      li {
         display: inline-block;
-        margin: 5px;
-    }
-    
-    li a {
-        width: auto;
-        padding: 10px 20px;
+        margin: 10px;
+      }
+      
+      li a {
+        display: inline-block;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 12px 24px;
+        background-color: #e74c3c; /* Warna merah yang lebih cerah */
+        border-radius: 8px;
+        transition: 0.3s;
         font-size: 1.2em;
-    }
-}
-
+      }
+      
+      /* Efek hover */
+      li a:hover {
+        background-color: #c0392b; /* Merah lebih gelap saat hover */
+        transform: scale(1.1); /* Efek membesar saat hover */
+      }
+      
+      /* Responsif untuk layar kecil */
+      @media (max-width: 768px) {
+        nav ul {
+          flex-direction: column; /* Mengubah arah menjadi kolom pada layar kecil */
+        }
+        
+        .card {
+          margin: 10px; /* Margin untuk kartu */
+        }
+        
+        li {
+          margin: 5px;
+        }
+        
+        li a {
+          width: auto;
+          padding: 10px 20px;
+          font-size: 1.2em;
+        }
+      }
+      
+      /* Ukuran kartu yang lebih baik */
+      .card {
+        width: 100%; /* Kartu mengambil lebar penuh */
+        max-width: 300px; /* Lebar maksimum kartu */
+        margin: auto; /* Pusatkan kartu */
+      }
     </style>
   </head>
 
   <body>
     <header>
-      <h1>Komunitas Niang Gejur</h1>
+      <h1>Niang Gejur</h1>
       <nav>
         <ul>
           <li><a href="beranda.html">Tentang Kami</a></li>
@@ -133,15 +166,14 @@ li a:hover {
         <h3 class="text-center">Recap Pementasan</h3>
         <div class="album py-5 bg-body-teriary">
             <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card shadow-sm">
-                            <img src="assets/poster 1.jpg" />
+                            <img src="assets/poster 1.jpg" class="card-img-top" />
                             <div class="card-body">
                                 <h4><a href="otoritas.html"> Otoritas Dalam Ekspresi Seni  </a></h4>
-                                <p class="card-body">
+                                <p class="card-text">
                                  Teater Otoritas Dalam Ekspresi Seni yang diselenggarakan  oleh  komunitas niang gejur di student center ITNY Yogyakarta.
-
                                 </p>
                                 <div class="d-flex justify-content-end align-items-center">
                                <button type="button" class="btn btn-info"><a href="otoritas.html">selengkapnya</a></button>
@@ -151,10 +183,10 @@ li a:hover {
                     </div>
                     <div class="col">
                         <div class="card shadow-sm">
-                            <img src="assets/poster 2.jpg" />
+                            <img src="assets/poster 2.jpg" class="card-img-top" />
                             <div class="card-body">
                                 <h4><a href="fragmen.html"> Fragmen Elegi Sebae </a></h4>
-                                <p class="card-body">
+                                <p class="card-text">
                                   Fragmen Elegi Sebae dalam rangka meramaikan festival budaya @komanttauajy
                                   pada tanggal 10 juni 2023
                                   yang diadakan di  Kampus Atma Jaya
@@ -167,10 +199,10 @@ li a:hover {
                     </div>
                     <div class="col">
                         <div class="card shadow-sm">
-                            <img src="assets/Kesbang.png" />
+                            <img src="assets/Kesbang.png" class="card-img-top" />
                             <div class="card-body">
                                 <h4><a href="kesbang.html"> Malam Budaya </a></h4>
-                                <p class="card-body">
+                                <p class="card-text">
                                   Parade Seni dan Budaya lintas Suku/etnis Yogyakarta 10 Juni 2023.
                                   Niang Gejur di percayakan untuk mewakili Nusa Tenggara Timur. 
                                 </p>
@@ -182,10 +214,10 @@ li a:hover {
                     </div>
                     <div class="col">
                         <div class="card shadow-sm">
-                            <img src="assets/poster 3.png" />
+                            <img src="assets/poster 3.png" class="card-img-top" />
                             <div class="card-body">
                                 <h4><a href="royalhouse.html"> Royal House </a></h4>
-                                <p class="card-body">
+                                <p class="card-text">
                                   Pentas Seni dan Sastra Hari Pahlawan.Tukar Akar, Royal House, & Niang Gejur. Pementasan ini dilakukan sebagai tanda
                                   penghormatan kepada jasa-jasa  Pahlawan Indonesia. 
                                 </p>
@@ -197,10 +229,10 @@ li a:hover {
                     </div>
                     <div class="col">
                       <div class="card shadow-sm">
-                          <img src="assets/poster 4.png" />
+                          <img src="assets/Jogja1.jpg" class="card-img-top" />
                           <div class="card-body">
                               <h4><a href="jogja.html"> Mahasiswa & Yogyakarta</a></h4>
-                              <p class="card-body">
+                              <p class="card-text">
                                   Pementasan seni dengan tema bertajuk “Mahasiswa & Yogyakarta” yang diselenggarakan di gedung Fakultas Sastra, Kampus I, Universitas Sanata Dharma.
                               </p>
                               <div class="d-flex justify-content-end align-items-center">
@@ -211,12 +243,11 @@ li a:hover {
                   </div>
                   <div class="col">
                       <div class="card shadow-sm">
-                          <img src="assets/niangroyal.jpg" />
+                          <img src="assets/niangroyal.jpg" class="card-img-top" />
                           <div class="card-body">
                               <h4><a href="merdeka.html"> Merdeka Tanya Tanya  </a></h4>
-                              <p class="card-body">
+                              <p class="card-text">
                                Halo kawan-kawan semua. Niang Gejur kembali lagi dengan sesuatu yang berbeda. Dalam rangka menyambut hari Pendidikan pada 2 Mei. Niang Gejur bekerjasama bersama para sesepuh dari Royalhouse Culture untuk melakukan pementasan seni dan musik yang bertema "Merdeka Tanda Tanya".
-
                               </p>
                               <div class="d-flex justify-content-end align-items-center">
                                   <button type="button" class="btn btn-info"><a href="merdeka.html">Selengkapnya</a></button>
@@ -226,10 +257,10 @@ li a:hover {
                 </div>
                 <div class="col">
                   <div class="card shadow-sm">
-                      <img src="assets/Snapinsta.app_469072771_584993467272385_1300642582771727432_n_1080.jpg" />
+                      <img src="assets/jogjasepertiapa.jpg" class="card-img-top" />
                       <div class="card-body">
                           <h4><a href="jogja2.html"> Mahasiswa dan Yogyakarta 2</a></h4>
-                          <p class="card-body">
+                          <p class="card-text">
                              ART & SHOW MAHASISWA & JOGJA VOL 2 
                               Yogyakarta, 7 Desember 2024 seni kembali menggema di Kota Pelajar dengan digelarnya Art & Show “MAHASISWA & JOGJA” Vol 2, sebuah perhelatan seni yang menghadirkan berbagai pertunjukan kreatif dan menghibur. Acara ini diselenggarakan oleh Niang Gejur dengan menggandeng berbagai komunitas seni dan organisasi mahasiswa di Yogyakarta.
                           </p>
@@ -239,6 +270,38 @@ li a:hover {
                       </div>
                   </div>
             </div>
+            <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="assets/Balada Tanah Mbate.jpg" class="card-img-top" />
+                            <div class="card-body">
+                                <h4><a href="Balada.html">Balada Tanah Mbate</a></h4>
+                                <p class="card-text">
+                                 Halo, Gejoos! Manusia-manusia berani kembali berulah, nih! Energi dari seporsi nasi telur ceplok memang tak pernah ada habisnya, ya. Akhir tahun 2024 lalu, 
+                                 dengan segala keterbatasan materi, Gejoos tetap tampil gigih, energik, dan solid di APMD. Nah, pada tanggal 12 April ini,
+                                  beberapa personel Gejoos akan kembali berlaga di Pagelaran Budaya SERENA.
+                                </p>
+                                <div class="d-flex justify-content-end align-items-center">
+                               <button type="button" class="btn btn-info"><a href="Balada.html">selengkapnya</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="assets/Ekonomi Tubuh.jpg" class="card-img-top" />
+                            <div class="card-body">
+                                <h4><a href="ekonomitubuh.html"> Ekonomi Tubuh </a></h4>
+                                <p class="card-text">
+                                 Niang Gejur kembali dipercayakan kembali membawa sebuah fragmen bertajuk "Ekonomi Tubuh" dalam acara Festival Budaya 3 yang diadakan 
+                                 oleh @komanttauajy. Fragmen ini membawa sebuah refleksi besar bagi kita semua (khususnya kaum laki-laki) tentang pentingnya menghargai setiap hak-hak perempuan dan kebebasan 
+                                 ia memilih dan memilki kemana dirinya sendiri. 
+                                </p>
+                                <div class="d-flex justify-content-end align-items-center">
+                               <button type="button" class="btn btn-info"><a href="ekonomitubuh.html">selengkapnya</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
       </section>
     </main>
 
