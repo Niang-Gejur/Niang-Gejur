@@ -1,26 +1,1292 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="fragmen.css" />
-    <title>Pameran Malam Budaya</title>
-  </head>
+    <title>Malam Budaya — Niang Gejur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #0d0d0d;
+        --cream: #f5f0e8;
+        --rust: #c94a2b;
+        --amber: #e8a030;
+        --gold: #b8860b;
+        --terracotta: #8b4513;
+        --warm: #c47a3a;
+        --muted: #8a7d6e;
+        --dark: #141414;
+        --card: #1c1c1c;
+      }
 
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        background-color: var(--dark);
+        color: #fff;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.35;
+      }
+
+      /* ─── CURSOR ─── */
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--warm);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease;
+        transform: translate(-50%, -50%);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--warm);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s;
+        transform: translate(-50%, -50%);
+        opacity: 0.4;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(13, 13, 13, 0.94);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--cream);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .nav-logo span {
+        color: var(--rust);
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: rgba(245, 240, 232, 0.45);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.25s;
+      }
+      .nav-links a:hover {
+        color: var(--amber);
+      }
+      .nav-back {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.35);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+      }
+      .nav-back::before {
+        content: "←";
+      }
+      .nav-back:hover {
+        color: var(--warm);
+      }
+
+      /* ─── HERO ─── */
+      .hero-poster {
+        position: relative;
+        height: 92vh;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      .hero-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+        filter: brightness(0.4) saturate(0.85);
+      }
+      .hero-poster::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(13, 13, 13, 0.1) 0%, rgba(13, 13, 13, 0.05) 25%, rgba(13, 13, 13, 0.6) 65%, rgba(13, 13, 13, 1) 100%);
+        pointer-events: none;
+      }
+      /* Batik-like diagonal pattern accent */
+      .hero-poster::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(196, 122, 58, 0.03) 40px, rgba(196, 122, 58, 0.03) 41px);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0 80px 72px;
+        z-index: 2;
+        animation: fadeUp 0.7s ease 0.2s both;
+      }
+      .hero-badge-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+      }
+      .hero-badge {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        padding: 6px 14px;
+        border-radius: 2px;
+      }
+      .hero-badge.primary {
+        background: var(--warm);
+        color: var(--ink);
+      }
+      .hero-badge.secondary {
+        background: transparent;
+        border: 1px solid rgba(245, 240, 232, 0.2);
+        color: rgba(245, 240, 232, 0.5);
+      }
+      .hero-number {
+        font-family: "Playfair Display", serif;
+        font-size: 0.9rem;
+        font-style: italic;
+        font-weight: 700;
+        color: var(--amber);
+        opacity: 0.7;
+        margin-left: auto;
+      }
+      .hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.8rem, 6vw, 6rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        color: var(--cream);
+        margin-bottom: 20px;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--warm);
+      }
+      .hero-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+      .hero-meta-item {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(245, 240, 232, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .hero-meta-item::before {
+        content: "—";
+        color: var(--warm);
+      }
+
+      /* ─── MARQUEE ─── */
+      .marquee-wrap {
+        background: var(--warm);
+        overflow: hidden;
+        padding: 14px 0;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marquee 22s linear infinite;
+        width: max-content;
+      }
+      .marquee-item {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        font-style: italic;
+        color: var(--ink);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 48px;
+      }
+      .marquee-item::after {
+        content: "✦";
+        font-style: normal;
+        font-size: 0.6rem;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── BODY LAYOUT ─── */
+      .body-layout {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 0;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 80px 60px 100px;
+      }
+
+      /* ─── MAIN ─── */
+      .main-content {
+        padding-right: 70px;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .content-section {
+        margin-bottom: 56px;
+        animation: fadeUp 0.6s ease both;
+      }
+      .content-section:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .content-section:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .content-section:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .content-section:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .content-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--warm);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .content-label::before {
+        content: "";
+        display: block;
+        width: 22px;
+        height: 1px;
+        background: var(--warm);
+      }
+
+      .content-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.7rem, 3vw, 2.4rem);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+        color: var(--cream);
+        margin-bottom: 24px;
+      }
+      .content-title em {
+        font-style: italic;
+        color: var(--warm);
+      }
+
+      .content-body {
+        font-size: 1.02rem;
+        line-height: 1.9;
+        color: rgba(245, 240, 232, 0.6);
+        font-weight: 300;
+      }
+      .content-body p + p {
+        margin-top: 1.2em;
+      }
+      .content-body strong {
+        color: var(--cream);
+        font-weight: 500;
+      }
+
+      .section-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        margin: 56px 0;
+      }
+
+      /* ─── TARI INFO CARDS ─── */
+      .tari-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        margin-top: 28px;
+      }
+      .tari-card {
+        background: var(--card);
+        padding: 32px 30px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        position: relative;
+        overflow: hidden;
+        transition: background 0.25s;
+        animation: fadeUp 0.5s ease both;
+      }
+      .tari-card:hover {
+        background: #222;
+      }
+      .tari-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--warm);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+      .tari-card:hover::after {
+        transform: scaleX(1);
+      }
+      .tari-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .tari-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .tari-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .tari-num {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        font-style: italic;
+        color: var(--warm);
+        opacity: 0.3;
+        line-height: 1;
+        margin-bottom: 12px;
+      }
+      .tari-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--cream);
+        margin-bottom: 10px;
+        line-height: 1.2;
+      }
+      .tari-desc {
+        font-size: 0.88rem;
+        line-height: 1.65;
+        color: rgba(245, 240, 232, 0.5);
+      }
+      .tari-desc strong {
+        color: rgba(245, 240, 232, 0.75);
+      }
+
+      /* Makna strip */
+      .makna-strip {
+        margin: 28px 0;
+        padding: 28px 32px;
+        background: rgba(196, 122, 58, 0.08);
+        border-left: 3px solid var(--warm);
+      }
+      .makna-strip p {
+        font-family: "Playfair Display", serif;
+        font-size: 1.05rem;
+        font-style: italic;
+        color: rgba(245, 240, 232, 0.7);
+        line-height: 1.7;
+      }
+      .makna-strip cite {
+        display: block;
+        margin-top: 10px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--warm);
+        font-style: normal;
+      }
+
+      /* ─── PENARI SECTION ─── */
+      .penari-section {
+        margin-bottom: 56px;
+      }
+
+      .penari-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        margin-top: 28px;
+      }
+      .penari-group {
+        background: var(--card);
+        padding: 32px 30px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        animation: fadeUp 0.5s ease both;
+      }
+      .penari-group:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .penari-group:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .penari-group-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--warm);
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .penari-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .penari-name {
+        font-size: 0.9rem;
+        color: rgba(245, 240, 232, 0.7);
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: color 0.2s;
+      }
+      .penari-name:hover {
+        color: var(--cream);
+      }
+      .penari-name:last-child {
+        border-bottom: none;
+      }
+      .penari-name::before {
+        content: "";
+        display: block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--warm);
+        flex-shrink: 0;
+        opacity: 0.5;
+      }
+      .penari-name:hover::before {
+        opacity: 1;
+      }
+
+      /* Koreografer highlight */
+      .koreografer-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(196, 122, 58, 0.12);
+        border: 1px solid rgba(196, 122, 58, 0.25);
+        padding: 12px 18px;
+        border-radius: 2px;
+        margin-bottom: 20px;
+      }
+      .koreografer-badge .kb-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--warm);
+      }
+      .koreografer-badge .kb-name {
+        font-family: "Playfair Display", serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--cream);
+      }
+      .koreografer-badge .kb-sep {
+        color: rgba(255, 255, 255, 0.15);
+      }
+
+      /* ─── CREW GRID ─── */
+      .crew-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+        margin-top: 28px;
+      }
+      .crew-block {
+        background: var(--card);
+        padding: 26px 28px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transition: background 0.25s;
+        animation: fadeUp 0.5s ease both;
+      }
+      .crew-block:hover {
+        background: #222;
+      }
+      .crew-role {
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--rust);
+        margin-bottom: 10px;
+      }
+      .crew-names {
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: rgba(245, 240, 232, 0.65);
+      }
+      .crew-names span {
+        display: inline-block;
+        color: var(--cream);
+        font-weight: 400;
+      }
+      .crew-names .sep {
+        color: rgba(245, 240, 232, 0.2);
+        margin: 0 5px;
+      }
+
+      /* ─── SIDEBAR ─── */
+      .sidebar {
+        padding-left: 56px;
+      }
+
+      .sidebar-block {
+        margin-bottom: 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        animation: fadeUp 0.6s ease both;
+      }
+      .sidebar-block:last-child {
+        border-bottom: none;
+      }
+      .sidebar-block:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .sidebar-block:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .sidebar-block:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .sidebar-block:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .sidebar-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--amber);
+        margin-bottom: 16px;
+      }
+      .sidebar-poster {
+        width: 100%;
+        border-radius: 3px;
+        display: block;
+        filter: brightness(0.82) saturate(0.9);
+        box-shadow:
+          8px 8px 0 var(--warm),
+          0 20px 40px rgba(0, 0, 0, 0.5);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          filter 0.3s;
+      }
+      .sidebar-poster:hover {
+        transform: translate(-3px, -3px);
+        box-shadow:
+          11px 11px 0 var(--warm),
+          0 28px 50px rgba(0, 0, 0, 0.6);
+        filter: brightness(0.95) saturate(1);
+      }
+
+      .info-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 18px;
+      }
+      .info-row:last-child {
+        margin-bottom: 0;
+      }
+      .info-key {
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: rgba(245, 240, 232, 0.25);
+      }
+      .info-val {
+        font-size: 0.92rem;
+        color: rgba(245, 240, 232, 0.75);
+        line-height: 1.5;
+      }
+      .info-val strong {
+        color: var(--cream);
+        font-weight: 500;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+      }
+      .tag {
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 6px 12px;
+        border-radius: 2px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(245, 240, 232, 0.45);
+      }
+      .tag.highlight {
+        border-color: var(--warm);
+        color: var(--warm);
+      }
+
+      /* Jumlah penari stat */
+      .stat-mini-row {
+        display: flex;
+        gap: 2px;
+        margin-top: 20px;
+      }
+      .stat-mini {
+        flex: 1;
+        background: rgba(196, 122, 58, 0.08);
+        border: 1px solid rgba(196, 122, 58, 0.15);
+        padding: 16px 14px;
+        text-align: center;
+      }
+      .stat-mini-num {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: var(--warm);
+        line-height: 1;
+      }
+      .stat-mini-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(245, 240, 232, 0.3);
+        margin-top: 5px;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: rgba(245, 240, 232, 0.4);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 14px 24px;
+        border-radius: 2px;
+        transition: all 0.25s;
+        width: 100%;
+      }
+      .back-btn::before {
+        content: "←";
+      }
+      .back-btn:hover {
+        border-color: var(--warm);
+        color: var(--warm);
+      }
+
+      /* ─── PEMENTASAN NAV ─── */
+      .pementasan-nav {
+        background: var(--ink);
+        padding: 60px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .pementasan-nav-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 32px;
+        text-align: center;
+      }
+      .pementasan-nav-grid {
+        display: flex;
+        gap: 2px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .pem-nav-item {
+        background: var(--card);
+        padding: 18px 24px;
+        text-decoration: none;
+        min-width: 160px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition:
+          background 0.25s,
+          border-color 0.25s;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .pem-nav-item:hover {
+        background: #222;
+        border-color: rgba(196, 122, 58, 0.3);
+      }
+      .pem-nav-item.current {
+        border-color: var(--warm);
+        background: rgba(196, 122, 58, 0.07);
+      }
+      .pem-num {
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        color: var(--rust);
+        letter-spacing: 0.1em;
+      }
+      .pem-nav-item.current .pem-num {
+        color: var(--warm);
+      }
+      .pem-name {
+        font-family: "Playfair Display", serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: rgba(245, 240, 232, 0.55);
+        line-height: 1.2;
+      }
+      .pem-nav-item.current .pem-name {
+        color: var(--cream);
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: #080808;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 50px 60px 32px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--cream);
+      }
+      .footer-brand span {
+        color: var(--rust);
+      }
+      .footer-nav {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .footer-nav a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.3);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .footer-nav a:hover {
+        color: var(--amber);
+      }
+      .footer-copy {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: rgba(245, 240, 232, 0.15);
+        letter-spacing: 0.06em;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 24px;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 1100px) {
+        .body-layout {
+          grid-template-columns: 1fr 320px;
+          padding: 60px 40px 80px;
+        }
+        .main-content {
+          padding-right: 48px;
+        }
+        .sidebar {
+          padding-left: 40px;
+        }
+      }
+      @media (max-width: 900px) {
+        nav {
+          padding: 22px 28px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero-content {
+          padding: 0 28px 56px;
+        }
+        .body-layout {
+          grid-template-columns: 1fr;
+          padding: 48px 28px 70px;
+        }
+        .main-content {
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          padding-bottom: 56px;
+        }
+        .sidebar {
+          padding-left: 0;
+          padding-top: 56px;
+        }
+        .tari-grid,
+        .penari-split,
+        .crew-grid {
+          grid-template-columns: 1fr;
+        }
+        .pementasan-nav {
+          padding: 48px 28px;
+        }
+        footer {
+          padding: 40px 28px 28px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: 24px;
+          text-align: center;
+        }
+        .footer-nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+        }
+      }
+      @media (max-width: 600px) {
+        .hero-poster {
+          height: 75vh;
+        }
+        .stat-mini-row {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
   <body>
-    <div class="container">
-      <div class="fragment">
-        <img src="assets/Kesbang.png" alt="Gambar Fragmen 1" />
-        <h2>Pameran Malam Budaya</h2>
-        <p>
-          Parade Seni dan Budaya lintas Suku/etnis Yogyakarta 10 Juni 2023. Niang Gejur di percayakan untuk mewakili Nusa Tenggara Timur. Dalam parade ini Niang Gejur membawakan beberapa tarian dari daerah di NTT seperti : Tarian Caci
-          Manggarai Tarian caci mengandung makna simbolis yang melambangkan kejantanan, keramaian, kemegahan dan sportifitas. “Ca” berarti satu dan “Ci” berarti Uji sehingga bermakna uji satu lawan satu. Selain itu Komunitas Niang Gejur
-          membawakan Tarian Toto Towe Songke dan tarian kolaborasi. Koreografer Penari : Yuni Madun dan Eman Jemalik. Nama Penari Perempuan : Diana Sopan, Ketryn Resmianto, Fitry Taseng, Dela Arjo, Ninggsih Jematu, Novita Dony , Kristin
-          Puspita, Rini Karny, Wati Marut, Anjeli Kamil, Florida Namus, dan Ayu Nabal. Nama penari Laki-Laki : Rico Latur, Jordan Wangge, Veris Pandong, Eras Jemparu, Sandro, Ipang Widyawan. Pemain Musik : Jo Ariswan, Edwan Juru, Edwin
-          Juru, dan Kokon Dugis. Penyanyi Sanda : Den Yonas, Kalvin Jehabut, Faldi Patut, Fili Himu, Pthink Sirjonn, Rinto Enggong dan Wens Jemparu. Crew : Johan Arkiang, Eman Jemalik dan Yuni Madun .
-        </p>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ─── NAV ─── -->
+    <nav>
+      <a href="index.html" class="nav-logo">Niang<span>.</span>Gejur</a>
+      <ul class="nav-links">
+        <li><a href="beranda.html">Tentang Kami</a></li>
+        <li><a href="visidanmisi.html">Visi & Misi</a></li>
+        <li><a href="karyaniang.html">Karya Niang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <a href="karyaniang.html" class="nav-back">Kembali ke Karya</a>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <div class="hero-poster">
+      <img src="assets/Kesbang.png" alt="Pameran Malam Budaya" />
+      <div class="hero-content">
+        <div class="hero-badge-row">
+          <span class="hero-badge primary">Parade Seni</span>
+          <span class="hero-badge secondary">Lintas Suku & Etnis</span>
+          <span class="hero-badge secondary">Mewakili NTT</span>
+          <span class="hero-number">No. 03</span>
+        </div>
+        <h1 class="hero-title"><em>Malam</em><br />Budaya</h1>
+        <div class="hero-meta-row">
+          <span class="hero-meta-item">Komunitas Niang Gejur</span>
+          <span class="hero-meta-item">Yogyakarta</span>
+          <span class="hero-meta-item">10 Juni 2023</span>
+        </div>
       </div>
     </div>
+
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Malam Budaya</span>
+        <span class="marquee-item">Tari Caci</span>
+        <span class="marquee-item">Manggarai</span>
+        <span class="marquee-item">NTT</span>
+        <span class="marquee-item">Parade Budaya</span>
+        <span class="marquee-item">Toto Towe Songke</span>
+        <span class="marquee-item">Niang Gejur</span>
+        <span class="marquee-item">Malam Budaya</span>
+        <span class="marquee-item">Tari Caci</span>
+        <span class="marquee-item">Manggarai</span>
+        <span class="marquee-item">NTT</span>
+        <span class="marquee-item">Parade Budaya</span>
+        <span class="marquee-item">Toto Towe Songke</span>
+        <span class="marquee-item">Niang Gejur</span>
+      </div>
+    </div>
+
+    <!-- ─── BODY ─── -->
+    <div class="body-layout">
+      <!-- MAIN -->
+      <div class="main-content">
+        <!-- Sinopsis -->
+        <div class="content-section">
+          <p class="content-label">Sinopsis</p>
+          <h2 class="content-title">Kebanggaan <em>Nusa Tenggara Timur</em></h2>
+          <div class="content-body">
+            <p>
+              Dalam <strong>Parade Seni dan Budaya Lintas Suku/Etnis Yogyakarta</strong> yang diselenggarakan pada <strong>10 Juni 2023</strong>, Komunitas Niang Gejur mendapat kehormatan untuk dipercayakan mewakili
+              <strong>Nusa Tenggara Timur</strong> — membawa kekayaan budaya Flores ke panggung kota pelajar.
+            </p>
+            <p>Tampil dengan penuh kebanggaan, Niang Gejur membawakan beberapa tarian khas daerah NTT yang sarat nilai budaya, sejarah, dan identitas leluhur.</p>
+          </div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- Tarian -->
+        <div class="content-section">
+          <p class="content-label">Repertoar Tarian</p>
+          <h2 class="content-title">Tarian yang <em>Dibawakan</em></h2>
+
+          <div class="tari-grid">
+            <div class="tari-card" style="grid-column: span 2">
+              <p class="tari-num">01</p>
+              <p class="tari-name">Tari Caci Manggarai</p>
+              <p class="tari-desc">Tarian adat dari Manggarai, Flores — salah satu tari perang paling ikonik dari NTT.</p>
+            </div>
+            <div class="tari-card">
+              <p class="tari-num">02</p>
+              <p class="tari-name">Tari Toto Towe Songke</p>
+              <p class="tari-desc">Tarian khas Manggarai yang memperlihatkan keanggunan kain Songke — warisan tenun tangan yang kaya motif.</p>
+            </div>
+            <div class="tari-card">
+              <p class="tari-num">03</p>
+              <p class="tari-name">Tarian Kolaborasi</p>
+              <p class="tari-desc">Perpaduan gerak dari berbagai tradisi NTT, menampilkan kekayaan budaya dalam satu panggung bersama.</p>
+            </div>
+          </div>
+
+          <div class="makna-strip">
+            <p>"Ca berarti satu dan Ci berarti uji — sehingga Caci bermakna uji satu lawan satu. Sebuah tarian yang melambangkan kejantanan, keramaian, kemegahan, dan sportivitas masyarakat Manggarai."</p>
+            <cite>— Makna filosofis Tari Caci</cite>
+          </div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- Penari -->
+        <div class="penari-section">
+          <p class="content-label">Para Penari</p>
+          <h2 class="content-title">Jiwa-Jiwa yang <em>Menari</em></h2>
+
+          <div class="koreografer-badge">
+            <span class="kb-label">Koreografer</span>
+            <span class="kb-name">Yuni Madun</span>
+            <span class="kb-sep">·</span>
+            <span class="kb-name">Eman Jemalik</span>
+          </div>
+
+          <div class="penari-split">
+            <div class="penari-group">
+              <p class="penari-group-label">Penari Perempuan — 12 orang</p>
+              <div class="penari-list">
+                <span class="penari-name">Diana Sopan</span>
+                <span class="penari-name">Ketryn Resmianto</span>
+                <span class="penari-name">Fitry Taseng</span>
+                <span class="penari-name">Dela Arjo</span>
+                <span class="penari-name">Ninggsih Jematu</span>
+                <span class="penari-name">Novita Dony</span>
+                <span class="penari-name">Kristin Puspita</span>
+                <span class="penari-name">Rini Karny</span>
+                <span class="penari-name">Wati Marut</span>
+                <span class="penari-name">Anjeli Kamil</span>
+                <span class="penari-name">Florida Namus</span>
+                <span class="penari-name">Ayu Nabal</span>
+              </div>
+            </div>
+            <div class="penari-group">
+              <p class="penari-group-label">Penari Laki-Laki — 6 orang</p>
+              <div class="penari-list">
+                <span class="penari-name">Rico Latur</span>
+                <span class="penari-name">Jordan Wangge</span>
+                <span class="penari-name">Veris Pandong</span>
+                <span class="penari-name">Eras Jemparu</span>
+                <span class="penari-name">Sandro</span>
+                <span class="penari-name">Ipang Widyawan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- Tim Produksi -->
+        <div class="content-section">
+          <p class="content-label">Tim Produksi</p>
+          <h2 class="content-title">Penggerak di <em>Balik Layar</em></h2>
+
+          <div class="crew-grid">
+            <div class="crew-block">
+              <p class="crew-role">Pemain Musik</p>
+              <p class="crew-names">
+                <span>Jo Ariswan</span><span class="sep">·</span> <span>Edwan Juru</span><span class="sep">·</span> <span>Edwin Juru</span><span class="sep">·</span>
+                <span>Kokon Dugis</span>
+              </p>
+            </div>
+            <div class="crew-block">
+              <p class="crew-role">Penyanyi Sanda</p>
+              <p class="crew-names">
+                <span>Den Yonas</span><span class="sep">·</span> <span>Kalvin Jehabut</span><span class="sep">·</span> <span>Faldi Patut</span><span class="sep">·</span> <span>Fili Himu</span><span class="sep">·</span>
+                <span>Pthink Sirjonn</span><span class="sep">·</span> <span>Rinto Enggong</span><span class="sep">·</span>
+                <span>Wens Jemparu</span>
+              </p>
+            </div>
+            <div class="crew-block" style="grid-column: span 2">
+              <p class="crew-role">Crew</p>
+              <p class="crew-names">
+                <span>Johan Arkiang</span><span class="sep">·</span> <span>Eman Jemalik</span><span class="sep">·</span>
+                <span>Yuni Madun</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-block">
+          <p class="sidebar-label">Poster Pementasan</p>
+          <img src="assets/Kesbang.png" alt="Poster Malam Budaya" class="sidebar-poster" />
+        </div>
+
+        <div class="sidebar-block">
+          <p class="sidebar-label">Detail Acara</p>
+          <div class="info-row">
+            <span class="info-key">Judul</span>
+            <span class="info-val"><strong>Pameran Malam Budaya</strong></span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Acara</span>
+            <span class="info-val">Parade Seni & Budaya Lintas Suku/Etnis Yogyakarta</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Representasi</span>
+            <span class="info-val"><strong>Nusa Tenggara Timur</strong></span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Tanggal</span>
+            <span class="info-val">10 Juni 2023</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Koreografer</span>
+            <span class="info-val">Yuni Madun & Eman Jemalik</span>
+          </div>
+
+          <div class="stat-mini-row">
+            <div class="stat-mini">
+              <div class="stat-mini-num">12</div>
+              <div class="stat-mini-label">Penari Putri</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-num">6</div>
+              <div class="stat-mini-label">Penari Putra</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-num">3</div>
+              <div class="stat-mini-label">Tarian</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-block">
+          <p class="sidebar-label">Tema & Kategori</p>
+          <div class="tag-row">
+            <span class="tag highlight">Tari Tradisional</span>
+            <span class="tag highlight">NTT</span>
+            <span class="tag">Tari Caci</span>
+            <span class="tag">Manggarai</span>
+            <span class="tag">Songke</span>
+            <span class="tag">Parade Budaya</span>
+            <span class="tag">Kolaborasi</span>
+          </div>
+        </div>
+
+        <div class="sidebar-block">
+          <a href="karyaniang.html" class="back-btn">Kembali ke Semua Karya</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── NAVIGASI PEMENTASAN ─── -->
+    <div class="pementasan-nav">
+      <p class="pementasan-nav-label">Jelajahi Pementasan Lainnya</p>
+      <div class="pementasan-nav-grid">
+        <a href="otoritas.html" class="pem-nav-item">
+          <span class="pem-num">01</span>
+          <span class="pem-name">Otoritas Dalam Ekspresi Seni</span>
+        </a>
+        <a href="fragmen.html" class="pem-nav-item">
+          <span class="pem-num">02</span>
+          <span class="pem-name">Fragmen Elegi Sebae</span>
+        </a>
+        <a href="kesbang.html" class="pem-nav-item current">
+          <span class="pem-num">03</span>
+          <span class="pem-name">Malam Budaya</span>
+        </a>
+        <a href="royalhouse.html" class="pem-nav-item">
+          <span class="pem-num">04</span>
+          <span class="pem-name">Royal House</span>
+        </a>
+        <a href="jogja.html" class="pem-nav-item">
+          <span class="pem-num">05</span>
+          <span class="pem-name">Mahasiswa & Yogyakarta</span>
+        </a>
+        <a href="merdeka.html" class="pem-nav-item">
+          <span class="pem-num">06</span>
+          <span class="pem-name">Merdeka Tanda Tanya</span>
+        </a>
+        <a href="jogja2.html" class="pem-nav-item">
+          <span class="pem-num">07</span>
+          <span class="pem-name">Mahasiswa & Jogja Vol. 2</span>
+        </a>
+        <a href="Balada.html" class="pem-nav-item">
+          <span class="pem-num">08</span>
+          <span class="pem-name">Balada Tanah Mbate</span>
+        </a>
+        <a href="ekonomitubuh.html" class="pem-nav-item">
+          <span class="pem-num">09</span>
+          <span class="pem-name">Ekonomi Tubuh</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">Niang<span>.</span>Gejur</div>
+        <ul class="footer-nav">
+          <li><a href="beranda.html">Tentang Kami</a></li>
+          <li><a href="visidanmisi.html">Visi & Misi</a></li>
+          <li><a href="karyaniang.html">Karya Niang</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+      </div>
+      <p class="footer-copy">© 2024 Komunitas Niang Gejur — Yogyakarta. Rumah Kreatif Bagi Jiwa Seni.</p>
+    </footer>
+
+    <script>
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        setTimeout(() => {
+          ring.style.left = e.clientX + "px";
+          ring.style.top = e.clientY + "px";
+        }, 80);
+      });
+      document.querySelectorAll("a").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(2.2)";
+          ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(1)";
+          ring.style.opacity = "0.4";
+        });
+      });
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.style.animationPlayState = "running";
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".tari-card, .penari-group, .crew-block").forEach((el) => {
+        el.style.animationPlayState = "paused";
+        obs.observe(el);
+      });
+    </script>
   </body>
 </html>

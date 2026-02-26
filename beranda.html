@@ -1,80 +1,919 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us - Komunitas</title>
+    <title>Tentang Kami — Niang Gejur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <style>
-      body {
-        font-family: Arial, sans-serif;
+      :root {
+        --ink: #0d0d0d;
+        --cream: #f5f0e8;
+        --rust: #c94a2b;
+        --amber: #e8a030;
+        --muted: #8a7d6e;
+        --dark: #141414;
+        --card: #1c1c1c;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        background-color: #ffffff;
-        color: #ffffff;
+      }
+      html {
+        scroll-behavior: smooth;
       }
 
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        background-color: var(--cream);
+        color: var(--ink);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Noise overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.3;
+      }
+
+      /* ─── CURSOR ─── */
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease;
+        transform: translate(-50%, -50%);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s;
+        transform: translate(-50%, -50%);
+        opacity: 0.4;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(13, 13, 13, 0.94);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--cream);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .nav-logo span {
+        color: var(--rust);
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: rgba(245, 240, 232, 0.45);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.25s;
+      }
+      .nav-links a:hover {
+        color: var(--amber);
+      }
+      .nav-links a.active {
+        color: var(--amber);
+      }
+
+      /* ─── HEADER / HERO ─── */
       header {
-        background-color: #000000;
-        color: white;
-        padding: 20px;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
+        background: var(--ink);
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 60px 70px;
+        position: relative;
+        overflow: hidden;
       }
 
-      main {
-        padding: 40px;
-        text-align: center;
+      /* diagonal hatch right panel */
+      header::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 38%;
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(201, 74, 43, 0.06) 10px, rgba(201, 74, 43, 0.06) 11px);
+        pointer-events: none;
       }
 
-      h1 {
-        color: #000000;
-        font-size: 36px;
-        margin-bottom: 20px;
+      /* Ghost large word */
+      .hero-ghost {
+        position: absolute;
+        bottom: -60px;
+        left: -10px;
+        font-family: "Playfair Display", serif;
+        font-size: clamp(10rem, 22vw, 22rem);
+        font-weight: 900;
+        font-style: italic;
+        color: rgba(201, 74, 43, 0.055);
+        line-height: 1;
+        pointer-events: none;
+        letter-spacing: -0.04em;
+        white-space: nowrap;
       }
 
-      p {
-        font-size: 18px;
-        line-height: 1.6;
-        max-width: 800px;
-        margin: 0 auto;
-        color: #000000;
+      .header-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.6s ease 0.1s both;
       }
-
-      img {
+      .header-eyebrow::before {
+        content: "";
         display: block;
-        margin: 20px auto;
-        width: 100%; /* Make the image responsive */
-        max-width: 500px; /* Reduced maximum width for smaller size */
-        height: auto; /* Maintain aspect ratio */
-        border-radius: 8px;
-        box-shadow: 0px 0px 15px rgba(161, 160, 160, 0.7);
+        width: 36px;
+        height: 1px;
+        background: var(--rust);
+      }
+
+      header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.2rem, 8vw, 8rem);
+        font-weight: 900;
+        color: var(--cream);
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.6s ease 0.2s both;
+      }
+      header h1 em {
+        font-style: italic;
+        color: var(--rust);
+      }
+
+      .header-sub {
+        margin-top: 22px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: rgba(245, 240, 232, 0.28);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.6s ease 0.3s both;
+      }
+
+      /* ─── MARQUEE ─── */
+      .marquee-wrap {
+        background: var(--rust);
+        overflow: hidden;
+        padding: 14px 0;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marquee 24s linear infinite;
+        width: max-content;
+      }
+      .marquee-item {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        font-style: italic;
+        color: rgba(245, 240, 232, 0.85);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 48px;
+      }
+      .marquee-item::after {
+        content: "✦";
+        font-style: normal;
+        font-size: 0.6rem;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── INTRO SECTION ─── */
+      .intro-section {
+        background: var(--cream);
+        padding: 100px 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: start;
+      }
+
+      .intro-left {
+        position: sticky;
+        top: 100px;
+      }
+
+      .section-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--rust);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: var(--rust);
+      }
+
+      .intro-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        color: var(--ink);
+        margin-bottom: 32px;
+      }
+      .intro-title em {
+        font-style: italic;
+        color: var(--rust);
+      }
+
+      /* Logo image */
+      .logo-wrap {
+        position: relative;
+        display: inline-block;
+        margin-top: 40px;
+      }
+      .logo-wrap img {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        border-radius: 4px;
+        box-shadow:
+          12px 12px 0 var(--rust),
+          0 24px 60px rgba(0, 0, 0, 0.18);
+        display: block;
+        filter: saturate(0.9);
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.3s ease;
+      }
+      .logo-wrap img:hover {
+        transform: translate(-4px, -4px);
+        box-shadow:
+          16px 16px 0 var(--rust),
+          0 32px 70px rgba(0, 0, 0, 0.22);
+      }
+      .logo-caption {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 14px;
+      }
+
+      /* Right side: story paragraphs */
+      .intro-right {
+        padding-top: 8px;
+      }
+
+      .story-block {
+        margin-bottom: 48px;
+        padding-bottom: 48px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        animation: fadeUp 0.6s ease both;
+      }
+      .story-block:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .story-block:nth-child(1) {
+        animation-delay: 0.15s;
+      }
+      .story-block:nth-child(2) {
+        animation-delay: 0.25s;
+      }
+      .story-block:nth-child(3) {
+        animation-delay: 0.35s;
+      }
+      .story-block:nth-child(4) {
+        animation-delay: 0.45s;
+      }
+
+      .story-num {
+        font-family: "Playfair Display", serif;
+        font-size: 0.75rem;
+        font-style: italic;
+        color: var(--rust);
+        opacity: 0.5;
+        margin-bottom: 10px;
+      }
+
+      .story-block p {
+        font-size: 1.05rem;
+        line-height: 1.85;
+        color: #4a4040;
+        font-weight: 300;
+      }
+      .story-block p strong {
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      /* ─── FILOSOFI BANNER ─── */
+      .filosofi-banner {
+        background: var(--ink);
+        padding: 90px 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+
+      .filosofi-word-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+      }
+
+      .filosofi-cell {
+        padding: 40px 36px;
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition: background 0.3s;
+      }
+      .filosofi-cell:hover {
+        background: #222;
+      }
+
+      .filosof-word {
+        font-family: "Playfair Display", serif;
+        font-size: 3.2rem;
+        font-weight: 900;
+        font-style: italic;
+        color: var(--rust);
+        line-height: 1;
+        margin-bottom: 10px;
+      }
+      .filosof-meaning {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: rgba(245, 240, 232, 0.35);
+        margin-bottom: 8px;
+      }
+      .filosof-desc {
+        font-size: 0.9rem;
+        color: rgba(245, 240, 232, 0.5);
+        line-height: 1.6;
+      }
+
+      .filosofi-right {
+        padding-left: 20px;
+      }
+      .filosofi-right .section-label {
+        color: var(--amber);
+      }
+      .filosofi-right .section-label::before {
+        background: var(--amber);
+      }
+      .filosofi-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 3.5vw, 3rem);
+        font-weight: 900;
+        color: var(--cream);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 28px;
+      }
+      .filosofi-title em {
+        color: var(--amber);
+        font-style: italic;
+      }
+      .filosofi-body {
+        font-size: 1rem;
+        color: rgba(245, 240, 232, 0.55);
+        line-height: 1.8;
+      }
+
+      /* ─── BIDANG SENI ─── */
+      .bidang-section {
+        background: var(--cream);
+        padding: 100px 60px;
+      }
+
+      .bidang-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 60px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .bidang-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .bidang-title em {
+        color: var(--rust);
+        font-style: italic;
+      }
+      .bidang-count {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        padding-bottom: 4px;
+      }
+
+      .bidang-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2px;
+      }
+
+      .bidang-item {
+        background: var(--ink);
+        padding: 40px 28px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+        animation: fadeUp 0.5s ease both;
+      }
+      .bidang-item:hover {
+        background: var(--rust);
+      }
+      .bidang-item:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .bidang-item:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .bidang-item:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .bidang-item:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .bidang-item:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+
+      .bidang-icon {
+        font-size: 2rem;
+        margin-bottom: 18px;
+        display: block;
+      }
+      .bidang-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--cream);
+        margin-bottom: 8px;
+      }
+      .bidang-desc {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(245, 240, 232, 0.35);
+        line-height: 1.6;
+      }
+
+      /* ─── QUOTE STRIP ─── */
+      .quote-strip {
+        background: var(--amber);
+        padding: 70px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .quote-strip::before {
+        content: '"';
+        position: absolute;
+        left: 30px;
+        top: -30px;
+        font-family: "Playfair Display", serif;
+        font-size: 18rem;
+        color: rgba(13, 13, 13, 0.06);
+        pointer-events: none;
+        line-height: 1;
+      }
+      .quote-text {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1.5;
+        max-width: 720px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .quote-attr {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(13, 13, 13, 0.45);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-top: 22px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: #080808;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 50px 60px 32px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--cream);
+      }
+      .footer-brand span {
+        color: var(--rust);
+      }
+      .footer-nav {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .footer-nav a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.3);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .footer-nav a:hover {
+        color: var(--amber);
+      }
+      .footer-copy {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: rgba(245, 240, 232, 0.15);
+        letter-spacing: 0.06em;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 24px;
+      }
+
+      /* ─── ANIMATIONS ─── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 1024px) {
+        .bidang-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .filosofi-banner {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+        .filosofi-right {
+          padding-left: 0;
+        }
+      }
+      @media (max-width: 900px) {
+        nav {
+          padding: 22px 28px;
+        }
+        .nav-links {
+          gap: 20px;
+        }
+        header {
+          padding: 0 28px 56px;
+          min-height: 60vh;
+        }
+        .intro-section {
+          grid-template-columns: 1fr;
+          padding: 70px 28px;
+          gap: 48px;
+        }
+        .intro-left {
+          position: static;
+        }
+        .filosofi-banner {
+          padding: 70px 28px;
+        }
+        .filosofi-word-grid {
+          gap: 2px;
+        }
+        .bidang-section {
+          padding: 70px 28px;
+        }
+        .quote-strip {
+          padding: 60px 28px;
+        }
+        footer {
+          padding: 40px 28px 28px;
+        }
+      }
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none;
+        }
+        .bidang-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .filosofi-word-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: 24px;
+          text-align: center;
+        }
+        .footer-nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+        }
       }
     </style>
   </head>
-
   <body>
-    <header>Niang Gejur</header>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
 
-    <main>
-      <h1>Gejo Gejo Gejo</h1>
-      <p>Komunitas Niang Gejur adalah sebuah komunitas seni yang lahir dari mimpi kecil perkumpulan orang-orang yang resah akan kehidupan sebagai anak kos di Yogyakarta.</p>
+    <!-- ─── NAV ─── -->
+    <nav>
+      <a href="index.html" class="nav-logo">Niang<span>.</span>Gejur</a>
+      <ul class="nav-links">
+        <li><a href="beranda.html" class="active">Tentang Kami</a></li>
+        <li><a href="visidanmisi.html">Visi & Misi</a></li>
+        <li><a href="karyaniang.html">Karya Niang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </nav>
 
-      <p>
-        Secara filosofis nama komunitas Niang Gejur, diartikan sebagai “niang” artinya rumah dan “gejur” artinya kreatif. Secara umum arti dari nama komunitas Niang Gejur yaitu rumah kreatif bagi orang-orang yang bergerak di bidang seni.
-      </p>
+    <!-- ─── HEADER ─── -->
+    <header>
+      <div class="hero-ghost">Gejo</div>
+      <p class="header-eyebrow">Komunitas Seni & Budaya — Yogyakarta</p>
+      <h1>Tentang<br /><em>Kami</em></h1>
+      <p class="header-sub">Niang Gejur — Rumah Kreatif</p>
+    </header>
 
-      <p>
-        Komunitas Niang Gejur sebagai sebuah tempat belajar terdiri dari mahasiswa dan mahasiswi yang melihat Jogja tidak hanya sebagai ruang sempit berisi para pemuda yang mengejar mimpi mereka lewat kegiatan di kampus, tetapi juga melihat
-        Jogja dengan lebih luas sebagai ruang kreasi untuk mengekspresikan bakat-bakat mereka lewat sastra, tari, dan dimensi seni lainnya.
-      </p>
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Tentang Kami</span>
+        <span class="marquee-item">Gejo Gejo Gejo</span>
+        <span class="marquee-item">Rumah Kreatif</span>
+        <span class="marquee-item">Seni & Budaya</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Mahasiswa Berkarya</span>
+        <span class="marquee-item">Tentang Kami</span>
+        <span class="marquee-item">Gejo Gejo Gejo</span>
+        <span class="marquee-item">Rumah Kreatif</span>
+        <span class="marquee-item">Seni & Budaya</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Mahasiswa Berkarya</span>
+      </div>
+    </div>
 
-      <p>
-        Komunitas Niang Gejur dalam hal ini membuat website ini sebagai sarana bagi para mahasiswa/mahasiswi untuk berpartisipasi dalam mengembangkan bakatnya terutama dalam bidang seni seperti menulis puisi, cerpen, opini, dan juga gambar
-        ataupun karya 3D.
-      </p>
-      <img src="assets/niang logo.jpg" class="card-img-top" />
-    </main>
+    <!-- ─── INTRO / STORY ─── */
+  <section class="intro-section">
+    <div class="intro-left">
+      <p class="section-label">Tentang Kami</p>
+      <h2 class="intro-title">Siapa<br>Niang <em>Gejur?</em></h2>
+
+      <div class="logo-wrap">
+        <img src="assets/niang logo.jpg" alt="Logo Niang Gejur" />
+        <p class="logo-caption">Logo Komunitas Niang Gejur</p>
+      </div>
+    </div>
+
+    <div class="intro-right">
+      <div class="story-block">
+        <p class="story-num">— 01</p>
+        <p>Komunitas <strong>Niang Gejur</strong> adalah sebuah komunitas seni yang lahir dari mimpi kecil perkumpulan orang-orang yang resah akan kehidupan sebagai anak kos di Yogyakarta. Dari keresahan itu, tumbuh sebuah tekad untuk menciptakan sesuatu yang bermakna.</p>
+      </div>
+
+      <div class="story-block">
+        <p class="story-num">— 02</p>
+        <p>Secara filosofis, nama komunitas ini diartikan sebagai <strong>"niang"</strong> yang berarti rumah, dan <strong>"gejur"</strong> yang berarti kreatif. Secara umum, Niang Gejur adalah <strong>rumah kreatif</strong> bagi orang-orang yang bergerak di bidang seni.</p>
+      </div>
+
+      <div class="story-block">
+        <p class="story-num">— 03</p>
+        <p>Komunitas Niang Gejur sebagai sebuah tempat belajar terdiri dari mahasiswa dan mahasiswi yang melihat Jogja tidak hanya sebagai ruang sempit. Mereka melihat Jogja dengan lebih luas — sebagai ruang kreasi untuk mengekspresikan bakat-bakat mereka lewat <strong>sastra, tari, dan dimensi seni lainnya</strong>.</p>
+      </div>
+
+      <div class="story-block">
+        <p class="story-num">— 04</p>
+        <p>Website ini hadir sebagai sarana bagi para mahasiswa/mahasiswi untuk berpartisipasi dalam mengembangkan bakatnya, terutama dalam bidang seni seperti <strong>menulis puisi, cerpen, opini</strong>, dan juga <strong>gambar ataupun karya 3D</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FILOSOFI NAMA ─── -->
+    <section class="filosofi-banner">
+      <div class="filosofi-word-grid">
+        <div class="filosofi-cell">
+          <div class="filosof-word">Niang</div>
+          <p class="filosof-meaning">Artinya</p>
+          <p class="filosof-desc">Rumah — tempat kembali, tempat berlabuh, tempat kita merasa aman dan diterima apa adanya.</p>
+        </div>
+        <div class="filosof-cell filosofi-cell" style="background: #111">
+          <div class="filosof-word" style="color: var(--amber)">Gejur</div>
+          <p class="filosof-meaning">Artinya</p>
+          <p class="filosof-desc">Kreatif — gerak tanpa henti, imajinasi yang mengalir, ekspresi yang tidak pernah padam.</p>
+        </div>
+        <div class="filosof-cell filosofi-cell" style="background: #111; grid-column: span 2; display: flex; align-items: center; gap: 24px; padding: 30px 36px">
+          <div style="font-family: &quot;Playfair Display&quot;, serif; font-size: 1.5rem; font-style: italic; color: var(--cream); font-weight: 700; white-space: nowrap">Niang + Gejur</div>
+          <div style="width: 1px; height: 40px; background: rgba(255, 255, 255, 0.1); flex-shrink: 0"></div>
+          <p style="font-size: 0.85rem; color: rgba(245, 240, 232, 0.45); line-height: 1.6; font-family: &quot;DM Sans&quot;, sans-serif">
+            Rumah Kreatif bagi orang-orang yang bergerak di bidang seni — sebuah filosofi yang menjadi fondasi seluruh karya dan langkah kami.
+          </p>
+        </div>
+      </div>
+
+      <div class="filosofi-right">
+        <p class="section-label">Filosofi Nama</p>
+        <h2 class="filosofi-title">Makna di<br />Balik <em>Nama</em></h2>
+        <p class="filosofi-body">
+          Setiap kata dalam nama kami bukan sekadar label — ia adalah manifesto. <em>Niang</em> mengundang pulang, <em>Gejur</em> mendorong melangkah. Bersama, keduanya membentuk identitas sebuah komunitas yang percaya bahwa seni adalah
+          cara manusia paling jujur berbicara kepada dunia.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── BIDANG SENI ─── -->
+    <section class="bidang-section">
+      <div class="bidang-header">
+        <h2 class="bidang-title">Bidang <em>Seni</em><br />Kami</h2>
+        <span class="bidang-count">05 Disiplin Seni</span>
+      </div>
+      <div class="bidang-grid">
+        <div class="bidang-item">
+          <span class="bidang-icon">✍️</span>
+          <p class="bidang-name">Sastra & Puisi</p>
+          <p class="bidang-desc">Menulis sebagai cara berbicara kepada dunia</p>
+        </div>
+        <div class="bidang-item">
+          <span class="bidang-icon">💃</span>
+          <p class="bidang-name">Tari Tradisional</p>
+          <p class="bidang-desc">Gerak yang menjaga akar budaya tetap hidup</p>
+        </div>
+        <div class="bidang-item">
+          <span class="bidang-icon">🎭</span>
+          <p class="bidang-name">Teater</p>
+          <p class="bidang-desc">Panggung sebagai ruang jujur bercerita</p>
+        </div>
+        <div class="bidang-item">
+          <span class="bidang-icon">🎨</span>
+          <p class="bidang-name">Seni Visual</p>
+          <p class="bidang-desc">Gambar dan bentuk yang bicara tanpa kata</p>
+        </div>
+        <div class="bidang-item">
+          <span class="bidang-icon">🎵</span>
+          <p class="bidang-name">Musik</p>
+          <p class="bidang-desc">Melodi dari jiwa-jiwa yang tak ingin diam</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── QUOTE ─── -->
+    <div class="quote-strip">
+      <p class="quote-text">"Gejo Gejo Gejo — bukan sekadar seruan, tapi semangat yang mengajak siapa saja untuk berani bergerak, berkarya, dan berbagi lewat seni."</p>
+      <p class="quote-attr">— Komunitas Niang Gejur, Yogyakarta</p>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">Niang<span>.</span>Gejur</div>
+        <ul class="footer-nav">
+          <li><a href="beranda.html">Tentang Kami</a></li>
+          <li><a href="visidanmisi.html">Visi & Misi</a></li>
+          <li><a href="karyaniang.html">Karya Niang</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+      </div>
+      <p class="footer-copy">© 2024 Komunitas Niang Gejur — Yogyakarta. Rumah Kreatif Bagi Jiwa Seni.</p>
+    </footer>
+
+    <script>
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        setTimeout(() => {
+          ring.style.left = e.clientX + "px";
+          ring.style.top = e.clientY + "px";
+        }, 80);
+      });
+      document.querySelectorAll("a, button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(2.2)";
+          ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(1)";
+          ring.style.opacity = "0.4";
+        });
+      });
+
+      // Scroll-triggered fade
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.style.animationPlayState = "running";
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".story-block, .bidang-item").forEach((el) => {
+        el.style.animationPlayState = "paused";
+        observer.observe(el);
+      });
+    </script>
   </body>
 </html>

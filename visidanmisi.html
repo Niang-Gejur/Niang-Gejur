@@ -1,80 +1,729 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visi dan Misi Perusahaan</title>
+    <title>Visi & Misi — Niang Gejur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <style>
-      body {
-        background-color: #ffffff;
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 0;
-        color: white;
+      :root {
+        --ink: #0d0d0d;
+        --cream: #f5f0e8;
+        --rust: #c94a2b;
+        --amber: #e8a030;
+        --muted: #8a7d6e;
+        --dark-section: #141414;
+        --card: #1c1c1c;
       }
 
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        background-color: var(--dark-section);
+        color: #ffffff;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Noise overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.35;
+      }
+
+      /* ─── CURSOR ─── */
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease;
+        transform: translate(-50%, -50%);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s;
+        transform: translate(-50%, -50%);
+        opacity: 0.4;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(13, 13, 13, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--cream);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .nav-logo span {
+        color: var(--rust);
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: rgba(245, 240, 232, 0.45);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.25s;
+      }
+      .nav-links a:hover {
+        color: var(--amber);
+      }
+      .nav-links a.active {
+        color: var(--amber);
+      }
+
+      /* ─── HEADER ─── */
       header {
         background-color: #000000;
-        padding: 20px;
+        padding: 90px 60px 70px;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Big decorative text behind */
+      header::before {
+        content: "NIANG";
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Playfair Display", serif;
+        font-size: 18rem;
+        font-weight: 900;
+        color: rgba(201, 74, 43, 0.04);
+        white-space: nowrap;
+        pointer-events: none;
+        letter-spacing: -0.05em;
+      }
+
+      /* Diagonal lines accent right */
+      header::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40%;
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(201, 74, 43, 0.05) 10px, rgba(201, 74, 43, 0.05) 11px);
+        pointer-events: none;
+      }
+
+      .header-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        position: relative;
+        z-index: 2;
+      }
+      .header-eyebrow::before,
+      .header-eyebrow::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 1px;
+        background: var(--rust);
       }
 
       header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.5rem, 8vw, 7rem);
+        font-weight: 900;
+        color: var(--cream);
         margin: 0;
-        font-size: 2rem;
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+        position: relative;
+        z-index: 2;
+      }
+      header h1 em {
+        font-style: italic;
+        color: var(--rust);
       }
 
+      .header-sub {
+        margin-top: 24px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: rgba(245, 240, 232, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ─── MAIN ─── */
       main {
-        padding: 40px;
+        padding: 80px 60px 100px;
         text-align: center;
       }
 
-      h2 {
-        color: #ffffff;
+      /* ─── VISI SECTION ─── */
+      .visi-section {
+        background-color: var(--card);
+        padding: 64px 72px;
+        margin: 0 auto 24px;
+        border-radius: 4px;
+        max-width: 860px;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.04),
+          0 20px 60px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.6s ease 0.1s both;
+      }
+
+      /* Vertical rust bar accent */
+      .visi-section::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--rust);
+      }
+
+      /* Large "V" decoration */
+      .visi-section::after {
+        content: "V";
+        position: absolute;
+        right: 24px;
+        bottom: -24px;
+        font-family: "Playfair Display", serif;
+        font-size: 10rem;
+        font-weight: 900;
         font-style: italic;
+        color: rgba(201, 74, 43, 0.06);
+        pointer-events: none;
+        line-height: 1;
       }
 
-      p,
-      li {
-        font-size: 1.2rem;
-        line-height: 1.6;
+      .section-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--rust);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      .section-label::before,
+      .section-label::after {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: var(--rust);
+        opacity: 0.5;
       }
 
-      section {
-        background-color: #222;
-        padding: 20px;
-        margin: 20px auto;
-        border-radius: 10px;
-        max-width: 800px;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 900;
+        font-style: italic;
+        color: var(--cream);
+        text-align: center;
+        margin-bottom: 28px;
+        letter-spacing: -0.02em;
       }
 
-      ul {
+      .visi-text {
+        font-family: "DM Sans", sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: rgba(245, 240, 232, 0.75);
+        font-weight: 300;
+        max-width: 580px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .visi-text strong {
+        color: var(--amber);
+        font-weight: 500;
+      }
+
+      /* ─── MISI SECTION ─── */
+      .misi-section {
+        background-color: var(--card);
+        padding: 64px 72px;
+        margin: 0 auto;
+        border-radius: 4px;
+        max-width: 860px;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.04),
+          0 20px 60px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.6s ease 0.25s both;
+      }
+
+      .misi-section::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--amber);
+      }
+
+      .misi-section::after {
+        content: "M";
+        position: absolute;
+        right: 24px;
+        bottom: -24px;
+        font-family: "Playfair Display", serif;
+        font-size: 10rem;
+        font-weight: 900;
+        font-style: italic;
+        color: rgba(232, 160, 48, 0.05);
+        pointer-events: none;
+        line-height: 1;
+      }
+
+      /* Misi list */
+      .misi-list {
         list-style: none;
         padding: 0;
+        text-align: left;
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
+      .misi-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 22px;
+        padding: 22px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: rgba(245, 240, 232, 0.7);
+        font-weight: 300;
+        transition: color 0.25s;
+        animation: fadeUp 0.5s ease both;
+      }
+      .misi-item:last-child {
+        border-bottom: none;
+      }
+      .misi-item:hover {
+        color: var(--cream);
+      }
+
+      .misi-item:nth-child(1) {
+        animation-delay: 0.35s;
+      }
+      .misi-item:nth-child(2) {
+        animation-delay: 0.45s;
+      }
+      .misi-item:nth-child(3) {
+        animation-delay: 0.55s;
+      }
+      .misi-item:nth-child(4) {
+        animation-delay: 0.65s;
+      }
+
+      /* Number badge per misi */
+      .misi-num {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(232, 160, 48, 0.3);
+        display: grid;
+        place-items: center;
+        font-family: "Playfair Display", serif;
+        font-size: 0.85rem;
+        font-style: italic;
+        font-weight: 700;
+        color: var(--amber);
+        transition:
+          background 0.25s,
+          border-color 0.25s;
+        margin-top: 2px;
+      }
+      .misi-item:hover .misi-num {
+        background: rgba(232, 160, 48, 0.1);
+        border-color: var(--amber);
+      }
+
+      /* ─── QUOTE STRIP ─── */
+      .quote-strip {
+        max-width: 860px;
+        margin: 60px auto 0;
+        padding: 48px 60px;
+        background: var(--rust);
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.6s ease 0.7s both;
+      }
+      .quote-strip::after {
+        content: '"';
+        position: absolute;
+        right: 20px;
+        top: -20px;
+        font-family: "Playfair Display", serif;
+        font-size: 14rem;
+        color: rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+        line-height: 1;
+      }
+      .quote-text {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+        font-style: italic;
+        color: var(--cream);
+        line-height: 1.5;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+      .quote-attr {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.45);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        text-align: center;
+        margin-top: 18px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ─── MARQUEE ─── */
+      .marquee-wrap {
+        background: var(--amber);
+        overflow: hidden;
+        padding: 14px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 80px;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marquee 22s linear infinite;
+        width: max-content;
+      }
+      .marquee-item {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        font-style: italic;
+        color: rgba(13, 13, 13, 0.75);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 48px;
+      }
+      .marquee-item::after {
+        content: "✦";
+        font-style: normal;
+        font-size: 0.6rem;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: #080808;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 50px 60px 32px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--cream);
+      }
+      .footer-brand span {
+        color: var(--rust);
+      }
+      .footer-nav {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .footer-nav a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.3);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .footer-nav a:hover {
+        color: var(--amber);
+      }
+      .footer-copy {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: rgba(245, 240, 232, 0.15);
+        letter-spacing: 0.06em;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 24px;
+      }
+
+      /* ─── ANIMATIONS ─── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 900px) {
+        nav {
+          padding: 22px 28px;
+        }
+        .nav-links {
+          gap: 20px;
+        }
+        header {
+          padding: 70px 28px 56px;
+        }
+        main {
+          padding: 60px 20px 80px;
+        }
+        .visi-section,
+        .misi-section {
+          padding: 48px 36px;
+        }
+        .quote-strip {
+          padding: 40px 36px;
+          margin-top: 40px;
+        }
+      }
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none;
+        }
+        header h1 {
+          font-size: 3rem;
+        }
+        .visi-section,
+        .misi-section {
+          padding: 36px 24px;
+        }
+        .misi-item {
+          font-size: 0.95rem;
+          gap: 16px;
+        }
+        footer {
+          padding: 40px 24px 28px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: 28px;
+          text-align: center;
+        }
+        .footer-nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+        }
       }
     </style>
   </head>
-
   <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ─── NAV ─── -->
+    <nav>
+      <a href="index.html" class="nav-logo">Niang<span>.</span>Gejur</a>
+      <ul class="nav-links">
+        <li><a href="beranda.html">Tentang Kami</a></li>
+        <li><a href="visidanmisi.html" class="active">Visi & Misi</a></li>
+        <li><a href="karyaniang.html">Karya Niang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </nav>
+
+    <!-- ─── HEADER ─── -->
     <header>
-      <h1 style="color: aliceblue; font-style: inherit">Visi dan Misi</h1>
+      <p class="header-eyebrow">Komunitas Seni Niang Gejur</p>
+      <h1>Visi <em>&</em><br />Misi</h1>
+      <p class="header-sub">Arah langkah kami dalam berkarya</p>
     </header>
+
+    <!-- ─── MAIN ─── -->
     <main>
-      <section>
-        <h2 style="font-style: italic; text-align: center">VISI</h2>
-        <p style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Menjadikan Komunitas Niang Gejur sebagai wadah untuk mengekspresikan minat dan bakat mahasiswa/mahasiswi Yogyakarta.</p>
+      <!-- VISI -->
+      <section class="visi-section">
+        <p class="section-label">Visi</p>
+        <h2>Ke Mana Kami Melangkah</h2>
+        <p class="visi-text">Menjadikan Komunitas <strong>Niang Gejur</strong> sebagai wadah untuk mengekspresikan minat dan bakat mahasiswa/mahasiswi Yogyakarta — sebuah rumah kreatif yang tumbuh bersama jiwa-jiwa seni.</p>
       </section>
-      <section>
-        <h2 style="font-style: italic; text-align: center">MISI</h2>
-        <ul style="text-align: center">
-          <p style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Mengajak mahasiswa/mahasiswi untuk mampu berkolaborasi bersama dalam bidang seni.</p>
-          <p style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Berkreasi untuk mengembangkan minat dan bakat dari mahasiswa/mahasiswi.</p>
-          <p style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Mengajak mahasiswa/mahasiswi untuk mampu menghasilkan karya-karya di bidang seni.</p>
-          <p style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Menjadikan Niang Gejur yang solid dan bertanggung jawab atas rencana yang telah dibuat.</p>
+
+      <!-- MISI -->
+      <section class="misi-section">
+        <p class="section-label">Misi</p>
+        <h2>Bagaimana Kami Berjalan</h2>
+        <ul class="misi-list">
+          <li class="misi-item">
+            <span class="misi-num">01</span>
+            <span>Mengajak mahasiswa/mahasiswi untuk mampu berkolaborasi bersama dalam bidang seni, menciptakan ruang yang inklusif dan penuh semangat.</span>
+          </li>
+          <li class="misi-item">
+            <span class="misi-num">02</span>
+            <span>Berkreasi untuk mengembangkan minat dan bakat dari mahasiswa/mahasiswi, mendorong setiap individu menemukan suara seninya sendiri.</span>
+          </li>
+          <li class="misi-item">
+            <span class="misi-num">03</span>
+            <span>Mengajak mahasiswa/mahasiswi untuk mampu menghasilkan karya-karya di bidang seni yang bermakna, autentik, dan berdampak bagi masyarakat.</span>
+          </li>
+          <li class="misi-item">
+            <span class="misi-num">04</span>
+            <span>Menjadikan Niang Gejur yang solid dan bertanggung jawab atas rencana yang telah dibuat, membangun kepercayaan lewat karya dan konsistensi.</span>
+          </li>
         </ul>
       </section>
+
+      <!-- QUOTE -->
+      <div class="quote-strip">
+        <p class="quote-text">"Dari kos-kosan di Jogja, kami bermimpi tentang panggung. Dari panggung, kami berbicara kepada dunia."</p>
+        <p class="quote-attr">— Semangat Komunitas Niang Gejur</p>
+      </div>
     </main>
+
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Visi</span>
+        <span class="marquee-item">Misi</span>
+        <span class="marquee-item">Kolaborasi</span>
+        <span class="marquee-item">Ekspresi</span>
+        <span class="marquee-item">Kreativitas</span>
+        <span class="marquee-item">Solidaritas</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Seni & Budaya</span>
+        <span class="marquee-item">Visi</span>
+        <span class="marquee-item">Misi</span>
+        <span class="marquee-item">Kolaborasi</span>
+        <span class="marquee-item">Ekspresi</span>
+        <span class="marquee-item">Kreativitas</span>
+        <span class="marquee-item">Solidaritas</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Seni & Budaya</span>
+      </div>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">Niang<span>.</span>Gejur</div>
+        <ul class="footer-nav">
+          <li><a href="beranda.html">Tentang Kami</a></li>
+          <li><a href="visidanmisi.html">Visi & Misi</a></li>
+          <li><a href="karyaniang.html">Karya Niang</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+      </div>
+      <p class="footer-copy">© 2024 Komunitas Niang Gejur — Yogyakarta. Rumah Kreatif Bagi Jiwa Seni.</p>
+    </footer>
+
+    <script>
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        setTimeout(() => {
+          ring.style.left = e.clientX + "px";
+          ring.style.top = e.clientY + "px";
+        }, 80);
+      });
+      document.querySelectorAll("a").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(2.2)";
+          ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(1)";
+          ring.style.opacity = "0.4";
+        });
+      });
+    </script>
   </body>
 </html>

@@ -1,64 +1,880 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karya-Karya</title>
+    <title>Karya Niang — Niang Gejur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <style>
-      body {
-        font-family: Arial, sans-serif;
+      :root {
+        --ink: #0d0d0d;
+        --cream: #f5f0e8;
+        --rust: #c94a2b;
+        --amber: #e8a030;
+        --sage: #5a7a5c;
+        --muted: #8a7d6e;
+        --fragment-bg: #141414;
+        --fragment-card: #1c1c1c;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        background-color: black;
+      }
+      html {
+        scroll-behavior: smooth;
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        background-color: var(--fragment-bg);
+        color: #ffffff;
+        overflow-x: hidden;
+        cursor: none;
       }
 
-      .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
+      /* Noise texture overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.35;
       }
 
-      .gallery-item {
-        border: 1px solid #ddd;
-        border-radius: 5px;
+      /* ─── CURSOR ─── */
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease;
+        transform: translate(-50%, -50%);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s;
+        transform: translate(-50%, -50%);
+        opacity: 0.4;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(13, 13, 13, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--cream);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .nav-logo span {
+        color: var(--rust);
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: rgba(245, 240, 232, 0.45);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.25s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--amber);
+      }
+
+      /* ─── PAGE HERO ─── */
+      .page-hero {
+        padding: 80px 60px 50px;
+        position: relative;
         overflow: hidden;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s;
+      }
+      .page-hero::after {
+        content: "KARYA";
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: "Playfair Display", serif;
+        font-size: 12rem;
+        font-weight: 900;
+        color: rgba(201, 74, 43, 0.05);
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .page-hero-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .page-hero-eyebrow::before {
+        content: "";
+        display: block;
+        width: 32px;
+        height: 1px;
+        background: var(--rust);
+      }
+      .page-hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 7vw, 6.5rem);
+        font-weight: 900;
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        color: var(--cream);
+      }
+      .page-hero-title em {
+        font-style: italic;
+        color: var(--rust);
       }
 
-      .gallery-item:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* ─── FILTER BAR ─── */
+      .filter-bar {
+        padding: 24px 60px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        flex-wrap: wrap;
+      }
+      .filter-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-right: 8px;
+      }
+      .filter-btn {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 8px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 2px;
+        background: transparent;
+        color: rgba(245, 240, 232, 0.45);
+        cursor: none;
+        transition: all 0.2s;
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--rust);
+        border-color: var(--rust);
+        color: var(--cream);
       }
 
-      .gallery-item img {
+      /* ─── CONTAINER / FRAGMENTS GRID ─── */
+      .container {
+        display: flex;
+        justify-content: space-around;
+        padding: 40px 40px 80px;
+        flex-wrap: wrap;
+        gap: 0;
+      }
+
+      /* ─── FRAGMENT CARD (adapted from user CSS + Niang style) ─── */
+      .fragment {
+        background-color: var(--fragment-card);
+        padding: 0;
+        border-radius: 4px;
+        box-shadow:
+          0px 8px 32px rgba(0, 0, 0, 0.6),
+          0 0 0 1px rgba(255, 255, 255, 0.04);
+        width: 30%;
+        text-align: left;
+        margin-bottom: 28px;
+        overflow: hidden;
+        position: relative;
+        transition:
+          transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          box-shadow 0.35s ease;
+        cursor: none;
+      }
+      .fragment:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow:
+          0px 24px 60px rgba(0, 0, 0, 0.8),
+          0 0 0 1px rgba(201, 74, 43, 0.3);
+      }
+
+      /* Image with overlay effect */
+      .fragment-img-wrap {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 3/2;
+      }
+      .fragment img {
         width: 100%;
-        height: 200px;
+        height: 100%;
         object-fit: cover;
+        border-radius: 0;
+        margin-bottom: 0;
+        border: none;
+        display: block;
+        filter: brightness(0.8) saturate(0.9);
+        transition:
+          transform 0.5s ease,
+          filter 0.4s ease;
+      }
+      .fragment:hover img {
+        transform: scale(1.07);
+        filter: brightness(0.6) saturate(1.1);
       }
 
-      .gallery-item .caption {
-        padding: 10px;
+      /* Number badge */
+      .fragment-number {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        font-family: "Playfair Display", serif;
+        font-size: 0.8rem;
+        font-weight: 900;
+        font-style: italic;
+        color: var(--amber);
+        background: rgba(13, 13, 13, 0.7);
+        padding: 4px 10px;
+        border-radius: 2px;
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(4px);
       }
 
-      .caption h3 {
-        margin: 0 0 5px;
+      /* Tag badge */
+      .fragment-tag {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--cream);
+        background: var(--rust);
+        padding: 5px 10px;
+        border-radius: 2px;
+      }
+
+      /* Image gradient fade into card */
+      .fragment-img-wrap::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to top, var(--fragment-card) 0%, transparent 100%);
+        pointer-events: none;
+      }
+
+      /* Card body */
+      .fragment-body {
+        padding: 20px 24px 26px;
+      }
+
+      .fragment h2 {
+        font-family: "Playfair Display", serif;
         font-size: 1.2rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 10px;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+      }
+      .fragment:hover h2 {
+        color: var(--amber);
+      }
+      .fragment h2 a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s;
       }
 
-      .caption p {
-        margin: 0;
-        color: #555;
+      .fragment p {
+        color: #8a8a8a;
+        font-size: 0.85rem;
+        line-height: 1.65;
+        margin-bottom: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Date meta */
+      .fragment-meta {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .fragment-meta::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 1px;
+        background: var(--rust);
+      }
+
+      /* CTA button */
+      .fragment-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--rust);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 74, 43, 0.4);
+        padding-bottom: 2px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .fragment-cta:hover {
+        color: var(--amber);
+        border-color: var(--amber);
+      }
+      .fragment-cta::after {
+        content: "→";
+      }
+
+      /* ─── FEATURED CARD (full-width first card) ─── */
+      .fragment.featured {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 28px;
+        max-height: 380px;
+      }
+      .fragment.featured .fragment-img-wrap {
+        width: 55%;
+        flex-shrink: 0;
+        aspect-ratio: auto;
+      }
+      .fragment.featured .fragment-img-wrap::after {
+        background: linear-gradient(to right, var(--fragment-card) 0%, transparent 100%);
+        height: 100%;
+        width: 30%;
+        top: 0;
+        left: auto;
+        right: 0;
+      }
+      .fragment.featured .fragment-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 36px;
+      }
+      .fragment.featured h2 {
+        font-size: 1.8rem;
+        margin-bottom: 14px;
+      }
+      .fragment.featured p {
+        -webkit-line-clamp: 4;
+        font-size: 0.9rem;
+      }
+      .fragment.featured .fragment-number {
+        font-size: 1rem;
+      }
+
+      /* ─── SECTION DIVIDER ─── */
+      .divider {
+        width: calc(100% - 80px);
+        margin: 8px 40px 28px;
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      /* ─── MARQUEE STRIP ─── */
+      .marquee-wrap {
+        background: var(--rust);
+        overflow: hidden;
+        padding: 14px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marquee 22s linear infinite;
+        width: max-content;
+      }
+      .marquee-item {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        font-style: italic;
+        color: rgba(245, 240, 232, 0.85);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 48px;
+      }
+      .marquee-item::after {
+        content: "✦";
+        font-style: normal;
+        font-size: 0.6rem;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: #080808;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 50px 60px 32px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--cream);
+      }
+      .footer-brand span {
+        color: var(--rust);
+      }
+      .footer-nav {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .footer-nav a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.3);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .footer-nav a:hover {
+        color: var(--amber);
+      }
+      .footer-copy {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: rgba(245, 240, 232, 0.15);
+        letter-spacing: 0.06em;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 24px;
+      }
+
+      /* ─── FADE ANIMATION ─── */
+      .fragment {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: fadeUp 0.6s ease forwards;
+      }
+      .fragment:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .fragment:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+      .fragment:nth-child(3) {
+        animation-delay: 0.25s;
+      }
+      .fragment:nth-child(4) {
+        animation-delay: 0.35s;
+      }
+      .fragment:nth-child(5) {
+        animation-delay: 0.45s;
+      }
+      .fragment:nth-child(6) {
+        animation-delay: 0.55s;
+      }
+      .fragment:nth-child(7) {
+        animation-delay: 0.65s;
+      }
+      .fragment:nth-child(8) {
+        animation-delay: 0.75s;
+      }
+      .fragment:nth-child(9) {
+        animation-delay: 0.85s;
+      }
+      .fragment:nth-child(10) {
+        animation-delay: 0.95s;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 1024px) {
+        .fragment {
+          width: 47%;
+        }
+        .fragment.featured {
+          flex-direction: column;
+          max-height: none;
+          width: 100%;
+        }
+        .fragment.featured .fragment-img-wrap {
+          width: 100%;
+          aspect-ratio: 16/8;
+        }
+        .fragment.featured .fragment-img-wrap::after {
+          background: linear-gradient(to top, var(--fragment-card) 0%, transparent 100%);
+          height: 40%;
+          width: 100%;
+          top: auto;
+          right: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 20px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .page-hero {
+          padding: 50px 24px 36px;
+        }
+        .filter-bar {
+          padding: 18px 24px;
+        }
+        .container {
+          padding: 24px 12px 60px;
+          justify-content: center;
+        }
+        .fragment {
+          width: 80%;
+          margin-bottom: 18px;
+        }
+        .fragment.featured {
+          width: 80%;
+        }
+        footer {
+          padding: 40px 24px 28px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: 28px;
+          text-align: center;
+        }
+        .footer-nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .fragment {
+          width: 95%;
+        }
+        .fragment.featured {
+          width: 95%;
+        }
       }
     </style>
   </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
 
-  <body></body>
+    <!-- ─── NAV ─── -->
+    <nav>
+      <a href="index.html" class="nav-logo">Niang<span>.</span>Gejur</a>
+      <ul class="nav-links">
+        <li><a href="beranda.html">Tentang Kami</a></li>
+        <li><a href="visidanmisi.html">Visi & Misi</a></li>
+        <li><a href="karyaniang.html" class="active">Karya Niang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </nav>
+
+    <!-- ─── PAGE HERO ─── -->
+    <div class="page-hero">
+      <p class="page-hero-eyebrow">Rekam Jejak Pementasan</p>
+      <h1 class="page-hero-title">Karya <em>Niang</em><br />Gejur</h1>
+    </div>
+
+    <!-- ─── FILTER BAR ─── -->
+    <div class="filter-bar">
+      <span class="filter-label">Tampilkan :</span>
+      <button class="filter-btn active">Semua</button>
+      <button class="filter-btn">Teater</button>
+      <button class="filter-btn">Festival</button>
+      <button class="filter-btn">Pementasan</button>
+      <button class="filter-btn">Kolaborasi</button>
+    </div>
+
+    <!-- ─── CONTAINER / FRAGMENTS ─── -->
+    <div class="container">
+      <!-- FEATURED — Card 1 -->
+      <div class="fragment featured">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 01</span>
+          <span class="fragment-tag">Teater</span>
+          <img src="assets/poster 1.jpg" alt="Otoritas Dalam Ekspresi Seni" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">ITNY Yogyakarta — 2023</p>
+          <h2><a href="otoritas.html">Otoritas Dalam Ekspresi Seni</a></h2>
+          <p>Teater Otoritas Dalam Ekspresi Seni yang diselenggarakan oleh komunitas niang gejur di student center ITNY Yogyakarta. Sebuah eksplorasi tentang batas-batas kebebasan berekspresi dalam dunia seni kontemporer.</p>
+          <a href="otoritas.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Card 2 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 02</span>
+          <span class="fragment-tag">Festival</span>
+          <img src="assets/poster 2.jpg" alt="Fragmen Elegi Sebae" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Atma Jaya — 10 Juni 2023</p>
+          <h2><a href="fragmen.html">Fragmen Elegi Sebae</a></h2>
+          <p>Fragmen Elegi Sebae dalam rangka meramaikan festival budaya @komanttauajy yang diadakan di Kampus Atma Jaya, Yogyakarta.</p>
+          <a href="fragmen.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 03</span>
+          <span class="fragment-tag">Budaya</span>
+          <img src="assets/Kesbang.png" alt="Malam Budaya" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Parade Seni — 10 Juni 2023</p>
+          <h2><a href="kesbang.html">Malam Budaya</a></h2>
+          <p>Parade Seni dan Budaya lintas Suku/etnis Yogyakarta. Niang Gejur dipercayakan untuk mewakili Nusa Tenggara Timur.</p>
+          <a href="kesbang.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 04</span>
+          <span class="fragment-tag">Kolaborasi</span>
+          <img src="assets/poster 3.png" alt="Royal House" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Hari Pahlawan — 2023</p>
+          <h2><a href="royalhouse.html">Royal House</a></h2>
+          <p>Pentas Seni dan Sastra Hari Pahlawan bersama Tukar Akar & Royal House. Pementasan sebagai tanda penghormatan kepada jasa-jasa Pahlawan Indonesia.</p>
+          <a href="royalhouse.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 05</span>
+          <span class="fragment-tag">Pementasan</span>
+          <img src="assets/Jogja1.jpg" alt="Mahasiswa & Yogyakarta" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Sanata Dharma — 2023</p>
+          <h2><a href="jogja.html">Mahasiswa & Yogyakarta</a></h2>
+          <p>Pementasan seni bertema "Mahasiswa & Yogyakarta" di Gedung Fakultas Sastra, Kampus I, Universitas Sanata Dharma.</p>
+          <a href="jogja.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 06</span>
+          <span class="fragment-tag">Kolaborasi</span>
+          <img src="assets/niangroyal.jpg" alt="Merdeka Tanda Tanya" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Hari Pendidikan — 2 Mei</p>
+          <h2><a href="merdeka.html">Merdeka Tanda Tanya</a></h2>
+          <p>Pementasan seni dan musik bersama Royalhouse Culture dalam menyambut Hari Pendidikan, bertema "Merdeka Tanda Tanya".</p>
+          <a href="merdeka.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 07</span>
+          <span class="fragment-tag">Art & Show</span>
+          <img src="assets/jogjasepertiapa.jpg" alt="Mahasiswa dan Yogyakarta 2" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Yogyakarta — 7 Desember 2024</p>
+          <h2><a href="jogja2.html">Mahasiswa & Jogja Vol. 2</a></h2>
+          <p>ART & SHOW MAHASISWA & JOGJA VOL 2. Seni kembali menggema di Kota Pelajar dengan berbagai pertunjukan kreatif dari berbagai komunitas dan organisasi mahasiswa.</p>
+          <a href="jogja2.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 08</span>
+          <span class="fragment-tag">Pagelaran</span>
+          <img src="assets/Balada Tanah Mbate.jpg" alt="Balada Tanah Mbate" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">SERENA — 12 April</p>
+          <h2><a href="Balada.html">Balada Tanah Mbate</a></h2>
+          <p>Manusia-manusia berani kembali berlaga di Pagelaran Budaya SERENA — gigih, energik, dan solid dengan segala keterbatasan materi.</p>
+          <a href="Balada.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+
+      <!-- Card 9 -->
+      <div class="fragment">
+        <div class="fragment-img-wrap">
+          <span class="fragment-number">No. 09</span>
+          <span class="fragment-tag">Festival</span>
+          <img src="assets/Ekonomi Tubuh.jpg" alt="Ekonomi Tubuh" />
+        </div>
+        <div class="fragment-body">
+          <p class="fragment-meta">Festival Budaya 3 — @komanttauajy</p>
+          <h2><a href="ekonomitubuh.html">Ekonomi Tubuh</a></h2>
+          <p>Fragmen "Ekonomi Tubuh" — sebuah refleksi tentang pentingnya menghargai hak-hak perempuan dan kebebasan memilih dirinya sendiri.</p>
+          <a href="ekonomitubuh.html" class="fragment-cta">Lihat Selengkapnya</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Teater</span>
+        <span class="marquee-item">Sastra</span>
+        <span class="marquee-item">Tari Tradisional</span>
+        <span class="marquee-item">Musik</span>
+        <span class="marquee-item">Pementasan</span>
+        <span class="marquee-item">Nusa Tenggara Timur</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Ekspresi Jiwa</span>
+        <span class="marquee-item">Teater</span>
+        <span class="marquee-item">Sastra</span>
+        <span class="marquee-item">Tari Tradisional</span>
+        <span class="marquee-item">Musik</span>
+        <span class="marquee-item">Pementasan</span>
+        <span class="marquee-item">Nusa Tenggara Timur</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Ekspresi Jiwa</span>
+      </div>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">Niang<span>.</span>Gejur</div>
+        <ul class="footer-nav">
+          <li><a href="beranda.html">Tentang Kami</a></li>
+          <li><a href="visidanmisi.html">Visi & Misi</a></li>
+          <li><a href="karyaniang.html">Karya Niang</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+      </div>
+      <p class="footer-copy">© 2024 Komunitas Niang Gejur — Yogyakarta. Rumah Kreatif Bagi Jiwa Seni.</p>
+    </footer>
+
+    <script>
+      // Cursor
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        setTimeout(() => {
+          ring.style.left = e.clientX + "px";
+          ring.style.top = e.clientY + "px";
+        }, 80);
+      });
+      document.querySelectorAll("a, button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(2.2)";
+          ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(1)";
+          ring.style.opacity = "0.4";
+        });
+      });
+
+      // Filter buttons (UI only)
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+    </script>
+  </body>
 </html>

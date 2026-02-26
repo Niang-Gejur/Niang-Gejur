@@ -1,28 +1,903 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>KONTAK</title>
-  <link rel="stylesheet" type="text/css" href="kontak.css">
-</head>
-<body>
-  <header>
-    <h1>KONTAK</h1>
-  </header>
-  <main>
-    <div class="kontak">
-      <div class="sosial-media">
-        <a href="https://www.instagram.com/niang.gejur?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
-        <a href="mailto:medianiang@gmail.com">Email</a>
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontak — Niang Gejur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #0d0d0d;
+        --cream: #f5f0e8;
+        --rust: #c94a2b;
+        --amber: #e8a030;
+        --muted: #8a7d6e;
+        --dark: #141414;
+        --card: #1c1c1c;
+      }
 
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        background-color: var(--dark);
+        color: #fff;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Noise texture */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.35;
+      }
+
+      /* ─── CURSOR ─── */
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition:
+          transform 0.15s ease,
+          background 0.2s;
+        transform: translate(-50%, -50%);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s;
+        transform: translate(-50%, -50%);
+        opacity: 0.4;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(13, 13, 13, 0.94);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--cream);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .nav-logo span {
+        color: var(--rust);
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: rgba(245, 240, 232, 0.45);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.25s;
+      }
+      .nav-links a:hover {
+        color: var(--amber);
+      }
+      .nav-links a.active {
+        color: var(--amber);
+      }
+
+      /* ─── HEADER ─── */
+      header {
+        background: var(--ink);
+        padding: 90px 60px 80px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: 52vh;
+      }
+      header::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40%;
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(201, 74, 43, 0.06) 10px, rgba(201, 74, 43, 0.06) 11px);
+        pointer-events: none;
+      }
+      .hero-ghost {
+        position: absolute;
+        bottom: -50px;
+        left: -8px;
+        font-family: "Playfair Display", serif;
+        font-size: clamp(9rem, 20vw, 20rem);
+        font-weight: 900;
+        font-style: italic;
+        color: rgba(201, 74, 43, 0.05);
+        line-height: 1;
+        pointer-events: none;
+        letter-spacing: -0.04em;
+        white-space: nowrap;
+      }
+      .header-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.5s ease 0.1s both;
+      }
+      .header-eyebrow::before {
+        content: "";
+        display: block;
+        width: 36px;
+        height: 1px;
+        background: var(--rust);
+      }
+      header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.5rem, 8vw, 8rem);
+        font-weight: 900;
+        color: var(--cream);
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.5s ease 0.2s both;
+      }
+      header h1 em {
+        font-style: italic;
+        color: var(--rust);
+      }
+      .header-sub {
+        margin-top: 22px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: rgba(245, 240, 232, 0.28);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.5s ease 0.3s both;
+      }
+
+      /* ─── MARQUEE ─── */
+      .marquee-wrap {
+        background: var(--rust);
+        overflow: hidden;
+        padding: 14px 0;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marquee 22s linear infinite;
+        width: max-content;
+      }
+      .marquee-item {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        font-style: italic;
+        color: rgba(245, 240, 232, 0.85);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 48px;
+      }
+      .marquee-item::after {
+        content: "✦";
+        font-style: normal;
+        font-size: 0.6rem;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── MAIN KONTAK LAYOUT ─── */
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 60vh;
+      }
+
+      /* ─── LEFT: Social channels ─── */
+      .kontak-left {
+        padding: 80px 60px;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .kontak-section-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--rust);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .kontak-section-label::before {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: var(--rust);
+      }
+      .kontak-heading {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 3.5vw, 3rem);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        color: var(--cream);
+        margin-bottom: 48px;
+      }
+      .kontak-heading em {
+        color: var(--rust);
+        font-style: italic;
+      }
+
+      /* ─── SOCIAL LINK ITEMS ─── */
+      .sosial-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .sosial-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        text-decoration: none;
+        group: true;
+        transition: padding-left 0.3s ease;
+        animation: fadeUp 0.5s ease both;
+      }
+      .sosial-item:first-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .sosial-item:hover {
+        padding-left: 10px;
+      }
+
+      .sosial-item:nth-child(1) {
+        animation-delay: 0.15s;
+      }
+      .sosial-item:nth-child(2) {
+        animation-delay: 0.25s;
+      }
+      .sosial-item:nth-child(3) {
+        animation-delay: 0.35s;
+      }
+      .sosial-item:nth-child(4) {
+        animation-delay: 0.45s;
+      }
+      .sosial-item:nth-child(5) {
+        animation-delay: 0.55s;
+      }
+
+      .sosial-left-group {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .sosial-icon-wrap {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: grid;
+        place-items: center;
+        font-size: 1.2rem;
+        transition:
+          background 0.25s,
+          border-color 0.25s;
+        flex-shrink: 0;
+      }
+      .sosial-item:hover .sosial-icon-wrap {
+        background: var(--rust);
+        border-color: var(--rust);
+      }
+
+      .sosial-info {
+      }
+      .sosial-platform {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--cream);
+        margin-bottom: 3px;
+        transition: color 0.25s;
+      }
+      .sosial-item:hover .sosial-platform {
+        color: var(--amber);
+      }
+      .sosial-handle {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        color: rgba(245, 240, 232, 0.3);
+        letter-spacing: 0.06em;
+      }
+
+      .sosial-arrow {
+        font-family: "Space Mono", monospace;
+        font-size: 1.1rem;
+        color: rgba(245, 240, 232, 0.15);
+        transition:
+          color 0.25s,
+          transform 0.25s;
+      }
+      .sosial-item:hover .sosial-arrow {
+        color: var(--rust);
+        transform: translateX(4px);
+      }
+
+      /* ─── RIGHT: Info + map placeholder ─── */
+      .kontak-right {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Address card */
+      .info-block {
+        padding: 60px 56px 48px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        animation: fadeUp 0.5s ease 0.2s both;
+      }
+      .info-block .kontak-section-label {
+        color: var(--amber);
+      }
+      .info-block .kontak-section-label::before {
+        background: var(--amber);
+      }
+
+      .info-detail {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 32px;
+      }
+      .info-row {
+        display: flex;
+        gap: 18px;
+        align-items: flex-start;
+      }
+      .info-row-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        display: grid;
+        place-items: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .info-row-content {
+      }
+      .info-row-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: rgba(245, 240, 232, 0.3);
+        margin-bottom: 4px;
+      }
+      .info-row-value {
+        font-size: 0.95rem;
+        color: rgba(245, 240, 232, 0.7);
+        line-height: 1.5;
+      }
+      .info-row-value a {
+        color: rgba(245, 240, 232, 0.7);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .info-row-value a:hover {
+        color: var(--amber);
+      }
+
+      /* Map placeholder */
+      .map-block {
+        flex: 1;
+        position: relative;
+        min-height: 260px;
+        overflow: hidden;
+        background: #111;
+      }
+      .map-block iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        filter: grayscale(1) brightness(0.5) contrast(1.1);
+        transition: filter 0.4s;
+      }
+      .map-block:hover iframe {
+        filter: grayscale(0.3) brightness(0.65);
+      }
+      .map-overlay-badge {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: var(--rust);
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--cream);
+        padding: 8px 16px;
+        border-radius: 2px;
+        pointer-events: none;
+      }
+      .map-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: #0f0f0f;
+      }
+      .map-placeholder .pin-icon {
+        font-size: 2.4rem;
+        opacity: 0.3;
+      }
+      .map-placeholder p {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .map-placeholder a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--rust);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 74, 43, 0.4);
+        padding-bottom: 2px;
+        transition: color 0.2s;
+      }
+      .map-placeholder a:hover {
+        color: var(--amber);
+      }
+
+      /* ─── CTA STRIP ─── */
+      .cta-strip {
+        background: var(--cream);
+        padding: 80px 60px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 40px;
+        align-items: center;
+      }
+      .cta-text h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 900;
+        letter-spacing: -0.025em;
+        color: var(--ink);
+        line-height: 1.05;
+      }
+      .cta-text h2 em {
+        font-style: italic;
+        color: var(--rust);
+      }
+      .cta-text p {
+        margin-top: 14px;
+        font-size: 0.95rem;
+        color: #666;
+        line-height: 1.7;
+        max-width: 420px;
+      }
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--rust);
+        color: var(--cream);
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        text-decoration: none;
+        padding: 18px 36px;
+        border-radius: 2px;
+        white-space: nowrap;
+        transition:
+          background 0.3s,
+          transform 0.2s;
+        flex-shrink: 0;
+      }
+      .cta-btn:hover {
+        background: var(--ink);
+        transform: translateY(-2px);
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: #080808;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 50px 60px 32px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--cream);
+      }
+      .footer-brand span {
+        color: var(--rust);
+      }
+      .footer-nav {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+      .footer-nav a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.3);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .footer-nav a:hover {
+        color: var(--amber);
+      }
+      .footer-copy {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: rgba(245, 240, 232, 0.15);
+        letter-spacing: 0.06em;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 24px;
+      }
+
+      /* ─── ANIMATIONS ─── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 900px) {
+        nav {
+          padding: 22px 28px;
+        }
+        .nav-links {
+          gap: 20px;
+        }
+        header {
+          padding: 70px 28px 60px;
+          min-height: 45vh;
+        }
+        main {
+          grid-template-columns: 1fr;
+        }
+        .kontak-left {
+          padding: 60px 28px;
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .info-block {
+          padding: 48px 28px 40px;
+        }
+        .cta-strip {
+          grid-template-columns: 1fr;
+          padding: 60px 28px;
+          gap: 28px;
+        }
+        footer {
+          padding: 40px 28px 28px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: 24px;
+          text-align: center;
+        }
+        .footer-nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+        }
+      }
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none;
+        }
+        .cta-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ─── NAV ─── -->
+    <nav>
+      <a href="index.html" class="nav-logo">Niang<span>.</span>Gejur</a>
+      <ul class="nav-links">
+        <li><a href="beranda.html">Tentang Kami</a></li>
+        <li><a href="visidanmisi.html">Visi & Misi</a></li>
+        <li><a href="karyaniang.html">Karya Niang</a></li>
+        <li><a href="kontak.html" class="active">Kontak</a></li>
+      </ul>
+    </nav>
+
+    <!-- ─── HEADER ─── -->
+    <header>
+      <div class="hero-ghost">Kontak</div>
+      <p class="header-eyebrow">Hubungi Kami</p>
+      <h1>Mari <em>Terhubung</em></h1>
+      <p class="header-sub">Temukan kami di mana pun kamu berada</p>
+    </header>
+
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Instagram</span>
+        <span class="marquee-item">Facebook</span>
+        <span class="marquee-item">TikTok</span>
+        <span class="marquee-item">Email</span>
+        <span class="marquee-item">Lokasi</span>
+        <span class="marquee-item">Bergabung Bersama Kami</span>
+        <span class="marquee-item">Niang Gejur Yogyakarta</span>
+        <span class="marquee-item">Instagram</span>
+        <span class="marquee-item">Facebook</span>
+        <span class="marquee-item">TikTok</span>
+        <span class="marquee-item">Email</span>
+        <span class="marquee-item">Lokasi</span>
+        <span class="marquee-item">Bergabung Bersama Kami</span>
+        <span class="marquee-item">Niang Gejur Yogyakarta</span>
       </div>
-    <div class="kontak">
-        <div class="sosial-media">
-          <a href="https://www.facebook.com/profile.php?id=100085304747369&mibextid=ZbWKwL">Facebook</a>
-          <a href="https://maps.app.goo.gl/EN8HFrmA1pSoLYvp9"> Location </a>
+    </div>
+
+    <!-- ─── MAIN ─── -->
+    <main>
+      <!-- LEFT: Social links -->
+      <div class="kontak-left">
+        <p class="kontak-section-label">Sosial Media</p>
+        <h2 class="kontak-heading">Temukan<br />Kami <em>Di Sini</em></h2>
+
+        <div class="sosial-list">
+          <a href="https://www.instagram.com/niang.gejur?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="sosial-item">
+            <div class="sosial-left-group">
+              <div class="sosial-icon-wrap">📸</div>
+              <div class="sosial-info">
+                <p class="sosial-platform">Instagram</p>
+                <p class="sosial-handle">@niang.gejur</p>
+              </div>
+            </div>
+            <span class="sosial-arrow">→</span>
+          </a>
+
+          <a href="https://www.tiktok.com/@niang.gejur?_t=ZS-8x3xPvLzBea&_r=1" target="_blank" class="sosial-item">
+            <div class="sosial-left-group">
+              <div class="sosial-icon-wrap">🎵</div>
+              <div class="sosial-info">
+                <p class="sosial-platform">TikTok</p>
+                <p class="sosial-handle">@niang.gejur</p>
+              </div>
+            </div>
+            <span class="sosial-arrow">→</span>
+          </a>
+
+          <a href="https://www.facebook.com/profile.php?id=100085304747369&mibextid=ZbWKwL" target="_blank" class="sosial-item">
+            <div class="sosial-left-group">
+              <div class="sosial-icon-wrap">📘</div>
+              <div class="sosial-info">
+                <p class="sosial-platform">Facebook</p>
+                <p class="sosial-handle">Niang Gejur</p>
+              </div>
+            </div>
+            <span class="sosial-arrow">→</span>
+          </a>
+
+          <a href="mailto:medianiang@gmail.com" class="sosial-item">
+            <div class="sosial-left-group">
+              <div class="sosial-icon-wrap">✉️</div>
+              <div class="sosial-info">
+                <p class="sosial-platform">Email</p>
+                <p class="sosial-handle">medianiang@gmail.com</p>
+              </div>
+            </div>
+            <span class="sosial-arrow">→</span>
+          </a>
+
+          <a href="https://maps.app.goo.gl/EN8HFrmA1pSoLYvp9" target="_blank" class="sosial-item">
+            <div class="sosial-left-group">
+              <div class="sosial-icon-wrap">📍</div>
+              <div class="sosial-info">
+                <p class="sosial-platform">Lokasi</p>
+                <p class="sosial-handle">Yogyakarta, Indonesia</p>
+              </div>
+            </div>
+            <span class="sosial-arrow">→</span>
+          </a>
         </div>
-      <div class="sosial-media">
-        <a href="https://www.tiktok.com/@niang.gejur?_t=ZS-8x3xPvLzBea&_r=1">Tik Tok </a>
       </div>
-  </main>
-</body>
+
+      <!-- RIGHT: Info + map -->
+      <div class="kontak-right">
+        <div class="info-block">
+          <p class="kontak-section-label">Informasi Kontak</p>
+          <div class="info-detail">
+            <div class="info-row">
+              <div class="info-row-icon">✉️</div>
+              <div class="info-row-content">
+                <p class="info-row-label">Alamat Email</p>
+                <p class="info-row-value">
+                  <a href="mailto:medianiang@gmail.com">medianiang@gmail.com</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-row-icon">📍</div>
+              <div class="info-row-content">
+                <p class="info-row-label">Lokasi Komunitas</p>
+                <p class="info-row-value">
+                  <a href="https://maps.app.goo.gl/EN8HFrmA1pSoLYvp9" target="_blank"> Yogyakarta, Daerah Istimewa<br />Yogyakarta, Indonesia </a>
+                </p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-row-icon">📸</div>
+              <div class="info-row-content">
+                <p class="info-row-label">Instagram</p>
+                <p class="info-row-value">
+                  <a href="https://www.instagram.com/niang.gejur" target="_blank">@niang.gejur</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-row-icon">🎵</div>
+              <div class="info-row-content">
+                <p class="info-row-label">TikTok</p>
+                <p class="info-row-value">
+                  <a href="https://www.tiktok.com/@niang.gejur" target="_blank">@niang.gejur</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-block">
+          <div class="map-placeholder">
+            <span class="pin-icon">📍</span>
+            <p>Yogyakarta, Indonesia</p>
+            <a href="https://maps.app.goo.gl/EN8HFrmA1pSoLYvp9" target="_blank">Buka di Google Maps →</a>
+          </div>
+          <div class="map-overlay-badge">Yogyakarta, DIY</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ─── CTA STRIP ─── -->
+    <div class="cta-strip">
+      <div class="cta-text">
+        <h2>Ingin Bergabung<br />Bersama <em>Kami?</em></h2>
+        <p>Niang Gejur selalu terbuka untuk jiwa-jiwa seni yang ingin berkolaborasi, belajar, dan berkarya bersama. Hubungi kami lewat media sosial atau email.</p>
+      </div>
+      <a href="mailto:medianiang@gmail.com" class="cta-btn">
+        Kirim Email
+        <span>→</span>
+      </a>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">Niang<span>.</span>Gejur</div>
+        <ul class="footer-nav">
+          <li><a href="beranda.html">Tentang Kami</a></li>
+          <li><a href="visidanmisi.html">Visi & Misi</a></li>
+          <li><a href="karyaniang.html">Karya Niang</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+      </div>
+      <p class="footer-copy">© 2024 Komunitas Niang Gejur — Yogyakarta. Rumah Kreatif Bagi Jiwa Seni.</p>
+    </footer>
+
+    <script>
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        setTimeout(() => {
+          ring.style.left = e.clientX + "px";
+          ring.style.top = e.clientY + "px";
+        }, 80);
+      });
+      document.querySelectorAll("a").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(2.2)";
+          ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%,-50%) scale(1)";
+          ring.style.opacity = "0.4";
+        });
+      });
+    </script>
+  </body>
 </html>

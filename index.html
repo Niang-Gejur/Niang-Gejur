@@ -1,318 +1,1067 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Niang Gejur - Rumah Kreatif</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <title>Niang Gejur — Rumah Kreatif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <style>
-      body {
-        background-color: #ffffff; /* Latar belakang putih */
-        color: #333; /* Warna teks gelap */
+      :root {
+        --ink: #0d0d0d;
+        --cream: #f5f0e8;
+        --rust: #c94a2b;
+        --amber: #e8a030;
+        --sage: #5a7a5c;
+        --muted: #8a7d6e;
+        --card-bg: #ffffff;
       }
-      
-      header {
-        background-color: #000000; /* Latar belakang hitam untuk header */
-        padding: 20px;
-        text-align: center;
-      }
-      
-      header h1 {
-        color: #e74c3c; /* Warna merah untuk judul */
-        font-weight: bold;
-        font-size: 2.5em; /* Ukuran font yang lebih besar */
-      }
-      
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; /* Memungkinkan item untuk membungkus */
-}
 
-nav li {
-    flex: 1; /* Membuat setiap item dalam navbar memiliki lebar yang sama */
-    margin: 2px; /* Jarak antar item yang lebih kecil */
-}
-
-nav a {
-    display: block; /* Mengubah link menjadi block untuk memanfaatkan lebar penuh */
-    color: #ecf0f1; /* Warna teks link yang lebih cerah */
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px; /* Padding yang lebih kecil untuk tombol */
-    border-radius: 5px; /* Sudut yang lebih halus */
-    text-align: center; /* Pusatkan teks */
-    transition: background-color 0.3s;
-}
-      nav a:hover {
-        background-color: #e74c3c; /* Warna latar belakang saat hover */
-      }
-      
-      .card {
-        background-color: #ffffff; /* Latar belakang kartu putih */
-        color: #333; /* Warna teks kartu gelap */
-        border: 1px solid #ddd; /* Border yang lebih halus */
-        border-radius: 10px; /* Sudut yang lebih halus */
-        transition: transform 0.3s; /* Efek transisi saat hover */
-      }
-      
-      .card:hover {
-        transform: scale(1.05); /* Efek membesar saat hover */
-      }
-      
-      .btn-info {
-        background-color: #e74c3c; /* Warna tombol merah */
-        border: none;
-        padding: 10px 20px; /* Ukuran tombol yang lebih besar */
-        border-radius: 5px; /* Sudut yang lebih halus */
-      }
-      
-      .btn-info a {
-        color: white;
-        text-decoration: none;
-      }
-      
-      footer {
-        background-color: #000000; /* Latar belakang hitam untuk footer */
-        text-align: center;
-        padding: 15px;
-        color: #ecf0f1; /* Warna teks footer yang lebih cerah */
-      }
-      
-      ul {
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
         padding: 0;
-        text-align: center;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--cream);
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Custom Cursor */
+      .cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition:
+          transform 0.15s ease,
+          width 0.2s ease,
+          height 0.2s ease;
+        transform: translate(-50%, -50%);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--rust);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s ease;
+        transform: translate(-50%, -50%);
+        opacity: 0.5;
+      }
+      body:hover .cursor {
+        opacity: 1;
+      }
+
+      /* ─── NOISE OVERLAY ─── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.4;
+      }
+
+      /* ─── HEADER / HERO ─── */
+      header {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        overflow: hidden;
+        background: var(--ink);
+      }
+
+      /* Decorative lines in hero */
+      header::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 45%;
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(201, 74, 43, 0.07) 10px, rgba(201, 74, 43, 0.07) 11px);
+        pointer-events: none;
+      }
+
+      /* ─── NAV ─── */
+      nav {
         display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 60px;
+        position: relative;
+        z-index: 10;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
-      
-      li {
-        display: inline-block;
-        margin: 10px;
+
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--cream);
+        letter-spacing: -0.02em;
       }
-      
-      li a {
-        display: inline-block;
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase;
+      .nav-logo span {
+        color: var(--rust);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: rgba(245, 240, 232, 0.55);
         text-decoration: none;
-        padding: 12px 24px;
-        background-color: #e74c3c; /* Warna merah yang lebih cerah */
-        border-radius: 8px;
-        transition: 0.3s;
-        font-size: 1.2em;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.25s;
       }
-      
-      /* Efek hover */
-      li a:hover {
-        background-color: #c0392b; /* Merah lebih gelap saat hover */
-        transform: scale(1.1); /* Efek membesar saat hover */
+      .nav-links a:hover {
+        color: var(--amber);
       }
-      
-      /* Responsif untuk layar kecil */
-      @media (max-width: 768px) {
-        nav ul {
-          flex-direction: column; /* Mengubah arah menjadi kolom pada layar kecil */
-        }
-        
-        .card {
-          margin: 10px; /* Margin untuk kartu */
-        }
-        
-        li {
-          margin: 5px;
-        }
-        
-        li a {
-          width: auto;
-          padding: 10px 20px;
-          font-size: 1.2em;
+
+      /* ─── HERO CONTENT ─── */
+      .hero-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 60px 80px;
+        position: relative;
+        z-index: 5;
+      }
+
+      .hero-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .hero-eyebrow::before {
+        content: "";
+        display: inline-block;
+        width: 40px;
+        height: 1px;
+        background: var(--rust);
+      }
+
+      .hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(4rem, 9vw, 9rem);
+        font-weight: 900;
+        color: var(--cream);
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        margin-bottom: 36px;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--rust);
+      }
+
+      .hero-desc {
+        max-width: 520px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: rgba(245, 240, 232, 0.6);
+        margin-bottom: 48px;
+      }
+
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--rust);
+        color: var(--cream);
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        text-decoration: none;
+        padding: 18px 36px;
+        border-radius: 2px;
+        transition:
+          background 0.3s,
+          transform 0.2s;
+        align-self: flex-start;
+      }
+      .hero-cta:hover {
+        background: var(--amber);
+        color: var(--ink);
+        transform: translateY(-2px);
+      }
+      .hero-cta svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* Floating year badge */
+      .hero-badge {
+        position: absolute;
+        bottom: 80px;
+        right: 60px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 1px solid rgba(245, 240, 232, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        animation: spin-slow 20s linear infinite;
+      }
+      .hero-badge-inner {
+        text-align: center;
+      }
+      .hero-badge-inner .year {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        color: var(--cream);
+        font-weight: 900;
+      }
+      .hero-badge-inner .since {
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      @keyframes spin-slow {
+        to {
+          transform: rotate(360deg);
         }
       }
-      
-      /* Ukuran kartu yang lebih baik */
-      .card {
-        width: 100%; /* Kartu mengambil lebar penuh */
-        max-width: 300px; /* Lebar maksimum kartu */
-        margin: auto; /* Pusatkan kartu */
+
+      /* ─── ABOUT STRIP ─── */
+      .about-strip {
+        background: var(--cream);
+        padding: 100px 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        position: relative;
+      }
+
+      .about-strip::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 50px;
+        font-family: "Playfair Display", serif;
+        font-size: 20rem;
+        color: rgba(201, 74, 43, 0.06);
+        line-height: 1;
+        pointer-events: none;
+      }
+
+      .about-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--rust);
+        margin-bottom: 20px;
+      }
+
+      .about-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+
+      .about-text {
+        font-size: 1rem;
+        line-height: 1.85;
+        color: #555;
+      }
+
+      .about-text p + p {
+        margin-top: 1em;
+      }
+
+      .stat-row {
+        display: flex;
+        gap: 48px;
+        margin-top: 48px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .stat h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: var(--rust);
+        line-height: 1;
+      }
+      .stat p {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      /* ─── SECTION HEADER ─── */
+      .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 60px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      }
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .section-title em {
+        font-style: italic;
+        color: var(--rust);
+      }
+      .section-count {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        padding-bottom: 6px;
+      }
+
+      /* ─── PEMENTASAN SECTION ─── */
+      .pementasan-section {
+        background: var(--ink);
+        padding: 100px 60px;
+      }
+      .pementasan-section .section-title {
+        color: var(--cream);
+      }
+      .pementasan-section .section-count {
+        color: var(--muted);
+      }
+      .pementasan-section .section-header {
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* ─── CARDS GRID ─── */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+      }
+
+      .art-card {
+        position: relative;
+        overflow: hidden;
+        background: #1a1a1a;
+        aspect-ratio: 3/4;
+        cursor: none;
+        group: true;
+      }
+
+      .art-card:nth-child(4n + 1) {
+        aspect-ratio: 4/5;
+      }
+      .art-card:nth-child(4n + 3) {
+        aspect-ratio: 5/6;
+      }
+
+      .art-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(30%) brightness(0.75);
+        transition:
+          transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          filter 0.4s ease;
+      }
+      .art-card:hover .art-card-img {
+        transform: scale(1.06);
+        filter: grayscale(0%) brightness(0.55);
+      }
+
+      .art-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 28px 24px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 0.35s ease,
+          transform 0.35s ease;
+      }
+      .art-card:hover .art-card-overlay {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .art-card-tag {
+        font-family: "Space Mono", monospace;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--amber);
+        margin-bottom: 8px;
+      }
+      .art-card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--cream);
+        line-height: 1.2;
+        margin-bottom: 10px;
+      }
+      .art-card-desc {
+        font-size: 0.82rem;
+        color: rgba(245, 240, 232, 0.65);
+        line-height: 1.5;
+        margin-bottom: 18px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .art-card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--rust);
+        text-decoration: none;
+        border-bottom: 1px solid var(--rust);
+        padding-bottom: 2px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .art-card-link:hover {
+        color: var(--amber);
+        border-color: var(--amber);
+      }
+
+      /* Always-visible title strip at bottom of card */
+      .art-card-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 16px 24px 18px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+        transition: opacity 0.3s;
+      }
+      .art-card:hover .art-card-strip {
+        opacity: 0;
+      }
+      .art-card-strip h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        color: var(--cream);
+        font-weight: 700;
+      }
+
+      /* ─── PHILOSOPHY STRIP ─── */
+      .philosophy {
+        background: var(--rust);
+        padding: 80px 60px;
+        display: flex;
+        align-items: center;
+        gap: 60px;
+        overflow: hidden;
+        position: relative;
+      }
+      .philosophy::after {
+        content: "SENI";
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: "Playfair Display", serif;
+        font-size: 10rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+      }
+      .philosophy-quote {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.5rem, 3vw, 2.4rem);
+        font-style: italic;
+        color: var(--cream);
+        line-height: 1.4;
+        max-width: 640px;
+        flex: 1;
+      }
+      .philosophy-attr {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: rgba(245, 240, 232, 0.55);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 20px;
+      }
+      .philosophy-deco {
+        flex-shrink: 0;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 2px solid rgba(245, 240, 232, 0.3);
+        display: grid;
+        place-items: center;
+      }
+      .philosophy-deco svg {
+        width: 40px;
+        height: 40px;
+        fill: rgba(245, 240, 232, 0.5);
+      }
+
+      /* ─── MARQUEE STRIP ─── */
+      .marquee-wrap {
+        background: var(--amber);
+        overflow: hidden;
+        padding: 16px 0;
+        border-top: 2px solid var(--ink);
+        border-bottom: 2px solid var(--ink);
+      }
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marquee 25s linear infinite;
+        width: max-content;
+      }
+      .marquee-item {
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        font-style: italic;
+        color: var(--ink);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 48px;
+      }
+      .marquee-item::after {
+        content: "✦";
+        font-style: normal;
+        font-size: 0.7rem;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: var(--ink);
+        color: var(--cream);
+        padding: 70px 60px 40px;
+      }
+      .footer-top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 60px;
+        margin-bottom: 60px;
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 2.4rem;
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+      .footer-brand span {
+        color: var(--rust);
+      }
+      .footer-tagline {
+        font-size: 0.9rem;
+        color: rgba(245, 240, 232, 0.45);
+        line-height: 1.6;
+        max-width: 280px;
+      }
+      .footer-col h5 {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--rust);
+        margin-bottom: 20px;
+      }
+      .footer-col ul {
+        list-style: none;
+      }
+      .footer-col ul li + li {
+        margin-top: 10px;
+      }
+      .footer-col ul li a {
+        font-size: 0.9rem;
+        color: rgba(245, 240, 232, 0.5);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-col ul li a:hover {
+        color: var(--amber);
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer-copy {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(245, 240, 232, 0.25);
+        letter-spacing: 0.06em;
+      }
+      .footer-socials {
+        display: flex;
+        gap: 16px;
+      }
+      .footer-socials a {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        display: grid;
+        place-items: center;
+        color: rgba(245, 240, 232, 0.4);
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        text-decoration: none;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .footer-socials a:hover {
+        border-color: var(--rust);
+        color: var(--rust);
+      }
+
+      /* ─── ANIMATIONS ─── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .fade-up:nth-child(2) {
+        transition-delay: 0.1s;
+      }
+      .fade-up:nth-child(3) {
+        transition-delay: 0.2s;
+      }
+      .fade-up:nth-child(4) {
+        transition-delay: 0.3s;
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 900px) {
+        nav {
+          padding: 22px 28px;
+        }
+        .nav-links {
+          gap: 20px;
+        }
+        .hero-body {
+          padding: 40px 28px 60px;
+        }
+        .about-strip {
+          grid-template-columns: 1fr;
+          padding: 60px 28px;
+          gap: 40px;
+        }
+        .pementasan-section {
+          padding: 60px 28px;
+        }
+        .cards-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .philosophy {
+          flex-direction: column;
+          padding: 60px 28px;
+          text-align: center;
+        }
+        footer {
+          padding: 60px 28px 36px;
+        }
+        .footer-top {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+      }
+      @media (max-width: 600px) {
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-badge {
+          display: none;
+        }
+        .nav-links {
+          display: none;
+        }
       }
     </style>
   </head>
-
   <body>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ─── HEADER / HERO ─── -->
     <header>
-      <h1>Niang Gejur</h1>
       <nav>
-        <ul>
+        <div class="nav-logo">Niang<span>.</span>Gejur</div>
+        <ul class="nav-links">
           <li><a href="beranda.html">Tentang Kami</a></li>
           <li><a href="visidanmisi.html">Visi & Misi</a></li>
           <li><a href="karyaniang.html">Karya Niang</a></li>
           <li><a href="kontak.html">Kontak</a></li>
         </ul>
       </nav>
+
+      <div class="hero-body">
+        <p class="hero-eyebrow">Komunitas Seni & Budaya — Yogyakarta</p>
+        <h1 class="hero-title">Rumah<br /><em>Kreatif</em><br />Kami</h1>
+        <p class="hero-desc">Dari mimpi kecil di kota pelajar, kami tumbuh menjadi ruang ekspresi bagi jiwa-jiwa seni yang mencari rumah — lewat teater, tari, sastra, dan setiap dimensi kreasi yang hidup.</p>
+        <a href="#pementasan" class="hero-cta">
+          Jelajahi Karya
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="hero-badge">
+        <div class="hero-badge-inner">
+          <div class="year">2022</div>
+          <div class="since">Est.</div>
+        </div>
+      </div>
     </header>
 
-    <main class="container py-5">
-      <section class="text-center">
-        <h2>Selamat Datang di Rumah Kreatif</h2>
-        <p>
-          Komunitas Niang Gejur adalah sebuah komunitas seni yang lahir dari mimpi kecil perkumpulan orang-orang yang resah akan kehidupan sebagai anak kos di Yogyakarta. Secara filosofis nama komunitas niang gejur, diartikan sebagai “
-          niang ” artinya rumah dan ” gejur ” artinya kreatif. Secara umum arti dari nama komunitas niang gejur yaitu rumah kreatif bagi orang-orang yang bergerak di bidang seni. Komunitas Niang Gejur sebagai sebuah tempat belajar terdiri
-          dari mahasiswa dan mahasiswi yang melihat jogja tidak hanya sebagai ruang sempit berisi para pemuda yang mengejar mimpi mereka lewat kegiatan di kampus, tetapi juga melihat Jogja dengan lebih luas sebagai ruang kreasi untuk
-          mengekspresikan bakat-bakat mereka lewat sastra, tari, dan dimensi seni lainnya.
-        </p>
-      </section>
+    <!-- ─── MARQUEE ─── -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Teater</span>
+        <span class="marquee-item">Sastra</span>
+        <span class="marquee-item">Tari Tradisional</span>
+        <span class="marquee-item">Musik</span>
+        <span class="marquee-item">Pementasan</span>
+        <span class="marquee-item">Nusa Tenggara Timur</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Ekspresi</span>
+        <span class="marquee-item">Teater</span>
+        <span class="marquee-item">Sastra</span>
+        <span class="marquee-item">Tari Tradisional</span>
+        <span class="marquee-item">Musik</span>
+        <span class="marquee-item">Pementasan</span>
+        <span class="marquee-item">Nusa Tenggara Timur</span>
+        <span class="marquee-item">Yogyakarta</span>
+        <span class="marquee-item">Ekspresi</span>
+      </div>
+    </div>
 
-      <section class="py-5">
-        <h3 class="text-center">Recap Pementasan</h3>
-        <div class="album py-5 bg-body-teriary">
-            <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="assets/poster 1.jpg" class="card-img-top" />
-                            <div class="card-body">
-                                <h4><a href="otoritas.html"> Otoritas Dalam Ekspresi Seni  </a></h4>
-                                <p class="card-text">
-                                 Teater Otoritas Dalam Ekspresi Seni yang diselenggarakan  oleh  komunitas niang gejur di student center ITNY Yogyakarta.
-                                </p>
-                                <div class="d-flex justify-content-end align-items-center">
-                               <button type="button" class="btn btn-info"><a href="otoritas.html">selengkapnya</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="assets/poster 2.jpg" class="card-img-top" />
-                            <div class="card-body">
-                                <h4><a href="fragmen.html"> Fragmen Elegi Sebae </a></h4>
-                                <p class="card-text">
-                                  Fragmen Elegi Sebae dalam rangka meramaikan festival budaya @komanttauajy
-                                  pada tanggal 10 juni 2023
-                                  yang diadakan di  Kampus Atma Jaya
-                                </p>
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <button type="button" class="btn btn-info"><a href="fragmen.html">selengkapnya</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="assets/Kesbang.png" class="card-img-top" />
-                            <div class="card-body">
-                                <h4><a href="kesbang.html"> Malam Budaya </a></h4>
-                                <p class="card-text">
-                                  Parade Seni dan Budaya lintas Suku/etnis Yogyakarta 10 Juni 2023.
-                                  Niang Gejur di percayakan untuk mewakili Nusa Tenggara Timur. 
-                                </p>
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <button type="button" class="btn btn-info"><a href="kesbang.html">selengkapnya</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="assets/poster 3.png" class="card-img-top" />
-                            <div class="card-body">
-                                <h4><a href="royalhouse.html"> Royal House </a></h4>
-                                <p class="card-text">
-                                  Pentas Seni dan Sastra Hari Pahlawan.Tukar Akar, Royal House, & Niang Gejur. Pementasan ini dilakukan sebagai tanda
-                                  penghormatan kepada jasa-jasa  Pahlawan Indonesia. 
-                                </p>
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <button type="button" class="btn btn-info"><a href="royalhouse.html">selengkapnya</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                      <div class="card shadow-sm">
-                          <img src="assets/Jogja1.jpg" class="card-img-top" />
-                          <div class="card-body">
-                              <h4><a href="jogja.html"> Mahasiswa & Yogyakarta</a></h4>
-                              <p class="card-text">
-                                  Pementasan seni dengan tema bertajuk “Mahasiswa & Yogyakarta” yang diselenggarakan di gedung Fakultas Sastra, Kampus I, Universitas Sanata Dharma.
-                              </p>
-                              <div class="d-flex justify-content-end align-items-center">
-                                  <button type="button" class="btn btn-info"><a href="jogja.html">Selengkapnya</a></button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col">
-                      <div class="card shadow-sm">
-                          <img src="assets/niangroyal.jpg" class="card-img-top" />
-                          <div class="card-body">
-                              <h4><a href="merdeka.html"> Merdeka Tanya Tanya  </a></h4>
-                              <p class="card-text">
-                               Halo kawan-kawan semua. Niang Gejur kembali lagi dengan sesuatu yang berbeda. Dalam rangka menyambut hari Pendidikan pada 2 Mei. Niang Gejur bekerjasama bersama para sesepuh dari Royalhouse Culture untuk melakukan pementasan seni dan musik yang bertema "Merdeka Tanda Tanya".
-                              </p>
-                              <div class="d-flex justify-content-end align-items-center">
-                                  <button type="button" class="btn btn-info"><a href="merdeka.html">Selengkapnya</a></button>
-                              </div>
-                          </div>
-                      </div>
-                </div>
-                <div class="col">
-                  <div class="card shadow-sm">
-                      <img src="assets/jogjasepertiapa.jpg" class="card-img-top" />
-                      <div class="card-body">
-                          <h4><a href="jogja2.html"> Mahasiswa dan Yogyakarta 2</a></h4>
-                          <p class="card-text">
-                             ART & SHOW MAHASISWA & JOGJA VOL 2 
-                              Yogyakarta, 7 Desember 2024 seni kembali menggema di Kota Pelajar dengan digelarnya Art & Show “MAHASISWA & JOGJA” Vol 2, sebuah perhelatan seni yang menghadirkan berbagai pertunjukan kreatif dan menghibur. Acara ini diselenggarakan oleh Niang Gejur dengan menggandeng berbagai komunitas seni dan organisasi mahasiswa di Yogyakarta.
-                          </p>
-                          <div class="d-flex justify-content-end align-items-center">
-                              <button type="button" class="btn btn-info"><a href="jogja2.html">Selengkapnya</a></button>
-                          </div>
-                      </div>
-                  </div>
-            </div>
-            <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="assets/Balada Tanah Mbate.jpg" class="card-img-top" />
-                            <div class="card-body">
-                                <h4><a href="Balada.html">Balada Tanah Mbate</a></h4>
-                                <p class="card-text">
-                                 Halo, Gejoos! Manusia-manusia berani kembali berulah, nih! Energi dari seporsi nasi telur ceplok memang tak pernah ada habisnya, ya. Akhir tahun 2024 lalu, 
-                                 dengan segala keterbatasan materi, Gejoos tetap tampil gigih, energik, dan solid di APMD. Nah, pada tanggal 12 April ini,
-                                  beberapa personel Gejoos akan kembali berlaga di Pagelaran Budaya SERENA.
-                                </p>
-                                <div class="d-flex justify-content-end align-items-center">
-                               <button type="button" class="btn btn-info"><a href="Balada.html">selengkapnya</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="assets/Ekonomi Tubuh.jpg" class="card-img-top" />
-                            <div class="card-body">
-                                <h4><a href="ekonomitubuh.html"> Ekonomi Tubuh </a></h4>
-                                <p class="card-text">
-                                 Niang Gejur kembali dipercayakan kembali membawa sebuah fragmen bertajuk "Ekonomi Tubuh" dalam acara Festival Budaya 3 yang diadakan 
-                                 oleh @komanttauajy. Fragmen ini membawa sebuah refleksi besar bagi kita semua (khususnya kaum laki-laki) tentang pentingnya menghargai setiap hak-hak perempuan dan kebebasan 
-                                 ia memilih dan memilki kemana dirinya sendiri. 
-                                </p>
-                                <div class="d-flex justify-content-end align-items-center">
-                               <button type="button" class="btn btn-info"><a href="ekonomitubuh.html">selengkapnya</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-      </section>
-    </main>
+    <!-- ─── ABOUT ─── -->
+    <section class="about-strip">
+      <div>
+        <p class="about-label">Tentang Kami</p>
+        <h2 class="about-title">Niang — Rumah.<br />Gejur — Kreatif.</h2>
+      </div>
+      <div>
+        <div class="about-text">
+          <p>Komunitas Niang Gejur lahir dari mimpi kecil perkumpulan orang-orang yang resah akan kehidupan sebagai anak kos di Yogyakarta. Secara filosofis, <em>niang</em> berarti rumah dan <em>gejur</em> berarti kreatif.</p>
+          <p>
+            Kami adalah tempat belajar yang terdiri dari mahasiswa dan mahasiswi yang melihat Jogja bukan hanya sebagai ruang sempit, tetapi sebagai ruang kreasi yang luas — untuk mengekspresikan bakat lewat sastra, tari, dan dimensi seni
+            lainnya.
+          </p>
+        </div>
+        <div class="stat-row">
+          <div class="stat">
+            <h3>9+</h3>
+            <p>Pementasan</p>
+          </div>
+          <div class="stat">
+            <h3>3+</h3>
+            <p>Tahun Berkarya</p>
+          </div>
+          <div class="stat">
+            <h3>∞</h3>
+            <p>Kreasi Jiwa</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- ─── PHILOSOPHY ─── -->
+    <div class="philosophy">
+      <div class="philosophy-deco">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+      </div>
+      <div>
+        <p class="philosophy-quote">"Seni bukan sekadar hiburan. Ia adalah cara kita mengenal diri, masyarakat, dan dunia — sebuah bahasa universal tanpa batas."</p>
+        <p class="philosophy-attr">— Filosofi Komunitas Niang Gejur</p>
+      </div>
+    </div>
+
+    <!-- ─── PEMENTASAN ─── -->
+    <section class="pementasan-section" id="pementasan">
+      <div class="section-header">
+        <h2 class="section-title">Recap<br /><em>Pementasan</em></h2>
+        <span class="section-count">09 Karya Terdokumentasi</span>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Card 1 -->
+        <div class="art-card fade-up">
+          <img src="assets/poster 1.jpg" alt="Otoritas Dalam Ekspresi Seni" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Otoritas Dalam Ekspresi Seni</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Teater — ITNY Yogyakarta</span>
+            <h3 class="art-card-title">Otoritas Dalam Ekspresi Seni</h3>
+            <p class="art-card-desc">Teater yang diselenggarakan oleh komunitas niang gejur di student center ITNY Yogyakarta.</p>
+            <a href="otoritas.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="art-card fade-up">
+          <img src="assets/poster 2.jpg" alt="Fragmen Elegi Sebae" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Fragmen Elegi Sebae</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Festival Budaya — Atma Jaya, 2023</span>
+            <h3 class="art-card-title">Fragmen Elegi Sebae</h3>
+            <p class="art-card-desc">Dalam rangka meramaikan festival budaya @komanttauajy pada 10 Juni 2023 di Kampus Atma Jaya.</p>
+            <a href="fragmen.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="art-card fade-up">
+          <img src="assets/Kesbang.png" alt="Malam Budaya" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Malam Budaya</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Parade Seni — 10 Juni 2023</span>
+            <h3 class="art-card-title">Malam Budaya</h3>
+            <p class="art-card-desc">Parade Seni dan Budaya lintas Suku/etnis Yogyakarta. Niang Gejur mewakili Nusa Tenggara Timur.</p>
+            <a href="kesbang.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="art-card fade-up">
+          <img src="assets/poster 3.png" alt="Royal House" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Royal House</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Pentas Seni — Hari Pahlawan</span>
+            <h3 class="art-card-title">Royal House</h3>
+            <p class="art-card-desc">Pentas Seni dan Sastra Hari Pahlawan bersama Tukar Akar & Royal House sebagai penghormatan kepada Pahlawan Indonesia.</p>
+            <a href="royalhouse.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="art-card fade-up">
+          <img src="assets/Jogja1.jpg" alt="Mahasiswa & Yogyakarta" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Mahasiswa & Yogyakarta</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Pementasan Seni — Sanata Dharma</span>
+            <h3 class="art-card-title">Mahasiswa & Yogyakarta</h3>
+            <p class="art-card-desc">Diselenggarakan di Gedung Fakultas Sastra, Kampus I, Universitas Sanata Dharma.</p>
+            <a href="jogja.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="art-card fade-up">
+          <img src="assets/niangroyal.jpg" alt="Merdeka Tanya Tanya" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Merdeka Tanda Tanya</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Hari Pendidikan — 2 Mei</span>
+            <h3 class="art-card-title">Merdeka Tanda Tanya</h3>
+            <p class="art-card-desc">Pementasan seni dan musik bersama Royalhouse Culture dalam rangka menyambut Hari Pendidikan.</p>
+            <a href="merdeka.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="art-card fade-up">
+          <img src="assets/jogjasepertiapa.jpg" alt="Mahasiswa dan Yogyakarta 2" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Mahasiswa & Jogja Vol. 2</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Art & Show — 7 Des 2024</span>
+            <h3 class="art-card-title">Mahasiswa & Jogja Vol. 2</h3>
+            <p class="art-card-desc">Seni kembali menggema di Kota Pelajar dengan berbagai pertunjukan kreatif dari berbagai komunitas dan organisasi.</p>
+            <a href="jogja2.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="art-card fade-up">
+          <img src="assets/Balada Tanah Mbate.jpg" alt="Balada Tanah Mbate" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Balada Tanah Mbate</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Pagelaran Budaya — SERENA</span>
+            <h3 class="art-card-title">Balada Tanah Mbate</h3>
+            <p class="art-card-desc">Manusia-manusia berani kembali berlaga di Pagelaran Budaya SERENA dengan gigih, energik, dan solid.</p>
+            <a href="Balada.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+
+        <!-- Card 9 -->
+        <div class="art-card fade-up">
+          <img src="assets/Ekonomi Tubuh.jpg" alt="Ekonomi Tubuh" class="art-card-img" />
+          <div class="art-card-strip">
+            <h4>Ekonomi Tubuh</h4>
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-tag">Festival Budaya 3 — @komanttauajy</span>
+            <h3 class="art-card-title">Ekonomi Tubuh</h3>
+            <p class="art-card-desc">Refleksi tentang hak-hak perempuan dan kebebasan memilih diri sendiri dalam bingkai seni teater.</p>
+            <a href="ekonomitubuh.html" class="art-card-link">Selengkapnya →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
     <footer>
-      <p>&copy; 2024 Komunitas Niang Gejur</p>
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">Niang<span>.</span>Gejur</div>
+          <p class="footer-tagline">Rumah kreatif bagi orang-orang yang bergerak di bidang seni — lahir di Yogyakarta, hidup dalam setiap ekspresi.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigasi</h5>
+          <ul>
+            <li><a href="beranda.html">Tentang Kami</a></li>
+            <li><a href="visidanmisi.html">Visi & Misi</a></li>
+            <li><a href="karyaniang.html">Karya Niang</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Pementasan</h5>
+          <ul>
+            <li><a href="otoritas.html">Otoritas Ekspresi Seni</a></li>
+            <li><a href="fragmen.html">Fragmen Elegi Sebae</a></li>
+            <li><a href="jogja2.html">Mahasiswa & Jogja Vol.2</a></li>
+            <li><a href="Balada.html">Balada Tanah Mbate</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2024 Komunitas Niang Gejur — Yogyakarta</p>
+        <div class="footer-socials">
+          <a href="#">IG</a>
+          <a href="#">YT</a>
+          <a href="#">TK</a>
+        </div>
+      </div>
     </footer>
+
+    <script>
+      // Custom cursor
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        setTimeout(() => {
+          ring.style.left = e.clientX + "px";
+          ring.style.top = e.clientY + "px";
+        }, 80);
+      });
+      document.querySelectorAll("a, button").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
+          ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "translate(-50%, -50%) scale(1)";
+          ring.style.opacity = "0.5";
+        });
+      });
+
+      // Scroll-triggered fade-up
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document.querySelectorAll(".fade-up").forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
