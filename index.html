@@ -119,14 +119,94 @@
       }
 
       .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+      .nav-logo img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1.5px solid rgba(245, 240, 232, 0.15);
+        transition: border-color 0.25s;
+      }
+      .nav-logo:hover img {
+        border-color: var(--rust);
+      }
+      .nav-logo-text {
         font-family: "Playfair Display", serif;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         font-weight: 900;
         color: var(--cream);
         letter-spacing: -0.02em;
       }
-      .nav-logo span {
+      .nav-logo-text span {
         color: var(--rust);
+      }
+
+      /* Hero logo floating */
+      .hero-logo-float {
+        position: absolute;
+        top: 50%;
+        right: 80px;
+        transform: translateY(-50%);
+        z-index: 6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        animation: float-logo 6s ease-in-out infinite;
+      }
+      .hero-logo-float img {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid rgba(245, 240, 232, 0.1);
+        box-shadow:
+          0 0 60px rgba(201, 74, 43, 0.15),
+          0 0 0 1px rgba(201, 74, 43, 0.1);
+        filter: brightness(0.95);
+        transition:
+          box-shadow 0.4s,
+          transform 0.4s;
+      }
+      .hero-logo-float img:hover {
+        box-shadow:
+          0 0 80px rgba(201, 74, 43, 0.3),
+          0 0 0 2px rgba(201, 74, 43, 0.3);
+      }
+      .hero-logo-float .logo-ring {
+        position: absolute;
+        inset: -16px;
+        border-radius: 50%;
+        border: 1px dashed rgba(245, 240, 232, 0.12);
+        animation: spin-slow 25s linear infinite;
+      }
+      .hero-logo-float .logo-ring-2 {
+        position: absolute;
+        inset: -32px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 74, 43, 0.08);
+        animation: spin-slow 40s linear infinite reverse;
+      }
+      .hero-logo-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.55rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: rgba(245, 240, 232, 0.25);
+      }
+      @keyframes float-logo {
+        0%,
+        100% {
+          transform: translateY(-50%) translateY(0px);
+        }
+        50% {
+          transform: translateY(-50%) translateY(-12px);
+        }
       }
 
       .nav-links {
@@ -154,6 +234,7 @@
         flex-direction: column;
         justify-content: center;
         padding: 60px 60px 80px;
+        padding-right: 320px;
         position: relative;
         z-index: 5;
       }
@@ -227,40 +308,23 @@
         height: 16px;
       }
 
-      /* Floating year badge */
-      .hero-badge {
-        position: absolute;
-        bottom: 80px;
-        right: 60px;
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 1px solid rgba(245, 240, 232, 0.2);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        animation: spin-slow 20s linear infinite;
-      }
-      .hero-badge-inner {
-        text-align: center;
-      }
-      .hero-badge-inner .year {
-        font-family: "Playfair Display", serif;
-        font-size: 1.6rem;
-        color: var(--cream);
-        font-weight: 900;
-      }
-      .hero-badge-inner .since {
-        font-family: "Space Mono", monospace;
-        font-size: 0.55rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
       @keyframes spin-slow {
         to {
           transform: rotate(360deg);
+        }
+      }
+
+      /* Floating year badge */
+      .hero-badge {
+        display: none;
+      }
+
+      @media (max-width: 900px) {
+        .hero-logo-float {
+          display: none;
+        }
+        .hero-body {
+          padding-right: 60px;
         }
       }
 
@@ -761,7 +825,10 @@
     <!-- ─── HEADER / HERO ─── -->
     <header>
       <nav>
-        <div class="nav-logo">Niang<span>.</span>Gejur</div>
+        <a href="index.html" class="nav-logo">
+          <img src="assets/niang logo.jpg" alt="Logo Niang Gejur" />
+          <span class="nav-logo-text">Niang<span>.</span>Gejur</span>
+        </a>
         <ul class="nav-links">
           <li><a href="beranda.html">Tentang Kami</a></li>
           <li><a href="visidanmisi.html">Visi & Misi</a></li>
@@ -780,6 +847,14 @@
             <path d="M3 8h10M9 4l4 4-4 4" />
           </svg>
         </a>
+
+        <!-- Floating Logo -->
+        <div class="hero-logo-float">
+          <div class="logo-ring-2"></div>
+          <div class="logo-ring"></div>
+          <img src="assets/niang logo.jpg" alt="Logo Niang Gejur" />
+          <span class="hero-logo-label">Niang Gejur</span>
+        </div>
       </div>
 
       <div class="hero-badge">
